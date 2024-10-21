@@ -32,11 +32,11 @@ const Announcement = () => {
   return (
     <>
       <Toaster position="bottom-right"/>
-      <nav style={{ backgroundColor: "#BCF997" }} className="flex justify-center font-light text-sm py-2.5">
+      <header style={{ backgroundColor: "#BCF997" }} className="flex justify-center font-light text-sm py-2.5 overflow-hidden">
         <TextTransition springConfig={presets.gentle}>
           <p className="text-xs md:text-sm truncate">{TEXTS[index % TEXTS.length]}</p>
         </TextTransition>
-      </nav>
+      </header>
     </>
 
   );
