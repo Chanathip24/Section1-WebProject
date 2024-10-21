@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 
-import "swiper/css/autoplay";
+
 
 
 const Carousel = () => {
