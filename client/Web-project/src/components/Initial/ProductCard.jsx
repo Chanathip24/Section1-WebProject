@@ -2,7 +2,7 @@ import React from 'react'
 
 const Items = () => {
   return (
-    <div className=' w-10/12 sm:w-1/2 md:w-60 lg:w-1/4 p-4'>
+    <div className='w-80  sm:w-1/2 md:w-60  p-4'>
       <div className='topcard relative rounded-xl'>
         <div className=' rounded-xl  absolute bottom-0 flex justify-center w-full'>
           <button className='buybutton transition opacity-0 text-white w-10/12 rounded-lg py-2 mb-4' style={{background:"#37c567" }}><span >Buy</span></button>

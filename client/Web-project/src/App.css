@@ -29,8 +29,6 @@
 
 .marquee {
   height: 25px;
-  
-
   overflow: hidden;
   position: relative;
 }
@@ -39,10 +37,8 @@
   display: block;
   width: 200%;
   height: 30px;
-
   position: absolute;
   overflow: hidden;
-
   animation: marquee 20s linear infinite;
 }
 

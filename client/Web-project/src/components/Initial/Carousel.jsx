@@ -36,7 +36,7 @@ const Carousel = () => {
 
           <img
             src="https://www.hospitalitymagazine.com.au/wp-content/uploads/2023/06/FSR-Webmag-Advertorial-Perrier-Value-Hero-Image-1000px.jpg?w=900"
-            alt=""
+            alt="A pictures of beverage product and our promotions"
           />
         </div>
         <div className="Slide h-auto lg:h-[500px]" style={{ translate: `${-100 * index}%` }}><img src="https://www.hospitalitymagazine.com.au/wp-content/uploads/2023/06/FSR-Webmag-Advertorial-Perrier-Value-Hero-Image-1000px.jpg?w=900" alt="" /></div>

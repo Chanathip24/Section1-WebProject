@@ -14,7 +14,7 @@ import SubCarousel2 from '../Initial/SubCarousel2'
 const Home = () => {
 
   return (
-    <>
+    <main>
       <Announcement />
       <Navbar />
       <Carousel />
@@ -28,7 +28,7 @@ const Home = () => {
       <SubCarousel/>
       <SubCarousel/>
       <Footer />
-    </>
+    </main>
   )
 }
 

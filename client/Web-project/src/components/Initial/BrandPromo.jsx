@@ -4,7 +4,7 @@ import React from 'react'
 import BrandPromocard from './BrandPromocard';
 const Brand = () => {
   return (
-    <section className='container mx-auto flex flex-row gap-0 justify-center md:gap-52 mt-5'>
+    <section className='container mx-auto flex flex-row gap-0 justify-center md:gap-52 my-24'>
         <BrandPromocard/>
         <BrandPromocard/>
         <BrandPromocard/>

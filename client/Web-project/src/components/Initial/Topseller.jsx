@@ -13,8 +13,8 @@ const Topseller = () => {
         return `${topseller === index ? "border-black" : "border-gray-300"} rounded-md transition border py-2  md:py-1 px-5`
     }
     return (
-        <main>
-            <section className='container mx-auto mt-5'>
+        <>
+            <section className='container mx-auto mt-10'>
                 <h1 className='text-center font-bold text-2xl tracking-wide'>Discover our top sellers</h1>
                 <div className='flex justify-center gap-3 md:gap-10 mt-5'>
 
@@ -33,7 +33,7 @@ const Topseller = () => {
 
 
             </section>
-        </main>
+        </>
 
     )
 }
