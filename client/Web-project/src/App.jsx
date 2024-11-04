@@ -37,8 +37,10 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/aboutus" element={<Aboutus/>} />
           <Route path="/contactus" element={<Contactus/>} />
-          <Route path="/product" element={<ProductDetail/>} />
+          <Route path="/product/:id" element={<ProductDetail/>} />
 
+          {/* check loading */}
+          {/* <Route path="/loading" element={<Loading/>} /> */}
           {/* Dashboard */}
           <Route
             path="/dashboard"

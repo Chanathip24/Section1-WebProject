@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import Items from './ProductCard'
 
-const Topseller = () => {
+const Topseller = ({data}) => {
     //button active
     const [topseller, setTopseller] = useState(1)
     const changestatus = (index) => {
         setTopseller(index)
     }
+    
 
     //button class
     const buttonclass = (index) => {
@@ -25,9 +26,9 @@ const Topseller = () => {
                 </div>
 
                 <div className='flex items-center flex-col md:flex-row mt-4 gap-6 justify-center'>
-                    <Items />
-                    <Items />
-                    <Items />
+                    {data && Array.isArray(data) && data.length > 0 ? data.map((product,key)=>{
+                        return <Items data={product} key={key}/>
+                    }):"Loading..."}
 
                 </div>
 

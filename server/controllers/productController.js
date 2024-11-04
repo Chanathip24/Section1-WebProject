@@ -1,129 +1,138 @@
 const db = require("../config/db.js");
-//create
-//update
+
 exports.updateProduct = (req, res) => {
-  const productId = req.params.id; // Get the product ID from URL parameters
+  const productId = req.params.id;
   const { product_name, description, price, stock } = req.body;
+  const categories = [req.body.category, req.body.sub_cate].filter(Boolean);
+  const imagePaths = req.files ? req.files.map((file) => file.path) : [];
 
-  // Expecting categories to be provided in the body as an array
-  const categories = [req.body.category, req.body.sub_cate].filter(Boolean); // Filter out any undefined values
-  const imagePaths = req.files ? req.files.map((file) => file.path) : []; // Collect image paths from uploaded files
+  const updateProductQuery = `
+    UPDATE products 
+    SET product_name = ?, description = ?, price = ?, stock_quantity = ? 
+    WHERE product_id = ?`;
 
-  // Update product details query
-  const query1 = `
-      UPDATE products 
-      SET product_name = ?, description = ?, price = ?, stock_quantity = ? 
-      WHERE product_id = ?`;
-
-  // Delete existing categories for this product
   const deleteCategoriesQuery =
     "DELETE FROM product_categories WHERE product_id = ?";
-
-  // Insert new categories
   const insertCategoriesQuery =
     "INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)";
-
-  // Delete existing images for this product
   const deleteImagesQuery = "DELETE FROM images WHERE product_id = ?";
-
-  // Insert new images
   const insertImagesQuery =
     "INSERT INTO images (image_url, product_id) VALUES (?, ?)";
 
-  // Update the product
+  // Update product details
   db.query(
-    query1,
+    updateProductQuery,
     [product_name, description, price, stock, productId],
     (err) => {
-      if (err)
+      if (err) {
         return res
           .status(500)
           .json({ error: "Error updating product", details: err });
+      }
 
-      // Delete existing categories
-      db.query(deleteCategoriesQuery, [productId], (err) => {
-        if (err)
-          return res
-            .status(500)
-            .json({ error: "Error deleting categories", details: err });
-
-        // Insert new categories
-        categories.forEach((category) => {
-          db.query(insertCategoriesQuery, [productId, category], (err) => {
-            if (err)
-              return res
-                .status(500)
-                .json({ error: "Error inserting category", details: err });
-          });
-        });
-
-        // Delete existing images
-        db.query(deleteImagesQuery, [productId], (err) => {
-          if (err)
+      // if categories is send from form
+      if (categories.length > 0) {
+        // Delete old categories
+        db.query(deleteCategoriesQuery, [productId], (err) => {
+          if (err) {
             return res
               .status(500)
-              .json({ error: "Error deleting images", details: err });
+              .json({ error: "Error deleting categories", details: err });
+          }
 
-          // Insert new images
-          imagePaths.forEach((imagePath) => {
-            db.query(insertImagesQuery, [imagePath, productId], (err) => {
-              if (err)
+          // Insert new categories
+          let categoriesProcessed = 0;
+          categories.forEach((category) => {
+            db.query(insertCategoriesQuery, [productId, category], (err) => {
+              if (err) {
                 return res
                   .status(500)
-                  .json({ error: "Error inserting image", details: err });
+                  .json({ error: "Error inserting category", details: err });
+              }
+              categoriesProcessed++;
+              if (categoriesProcessed === categories.length) {
+                // Proceed to images after all categories are processed
+                handleImageUpdate();
+              }
             });
           });
-
-          // Final response
-          res
-            .status(200)
-            .json("Product, categories, and images updated successfully!");
         });
-      });
+      } else {
+        // If no categories to update, proceed directly to image handling
+        handleImageUpdate();
+      }
     }
   );
+
+  // Function to delete and update images
+  function handleImageUpdate() {
+    if (imagePaths.length > 0) {
+      // Delete existing images
+      db.query(deleteImagesQuery, [productId], (err) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ error: "Error deleting images", details: err });
+        }
+
+        // Insert new images
+        let imagesProcessed = 0;
+        imagePaths.forEach((imagePath) => {
+          db.query(insertImagesQuery, [imagePath, productId], (err) => {
+            if (err) {
+              return res
+                .status(500)
+                .json({ error: "Error inserting image", details: err });
+            }
+            imagesProcessed++;
+            if (imagesProcessed === imagePaths.length) {
+              res
+                .status(200)
+                .json("Product, categories, and images updated successfully!");
+            }
+          });
+        });
+      });
+    } else {
+      // If no images to insert, send response
+      res.status(200).json("Product updated successfully!");
+    }
+  }
 };
+
 exports.createProduct = (req, res) => {
   const { product_name, description, price, stock } = req.body;
-  const categories = [req.body.category, req.body.sub_cate].filter(Boolean); // Filter out any undefined or empty values
+  const categories = [req.body.category, req.body.sub_cate].filter(Boolean);
   const imagePaths = req.files.map((file) => file.path);
 
   // Insert product details into the products table
   const query =
     "INSERT INTO products (product_name, description, price, stock_quantity) VALUES (?, ?, ?, ?)";
 
-  // Insert category to product in the product_categories table
-  const query2 =
-    "INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)";
-
-  // Insert image URLs into the images table
-  const query3 = "INSERT INTO images (image_url, product_id) VALUES (?, ?)";
-
-  // Execute the first query
   db.query(query, [product_name, description, price, stock], (err, result) => {
     if (err) return res.status(500).json({ error: err });
 
-    // Product ID for the new product
     const productId = result.insertId;
 
-    // Insert each category
     for (let i = 0; i < categories.length; i++) {
-      db.query(query2, [productId, categories[i]], (err) => {
+      const query2 =
+        "INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)";
+      db.query(query2, [productId, categories[i]], (err, result) => {
         if (err) return res.status(500).json({ error: err });
+        //console.log("category", result);
       });
     }
-
-    // Insert each image one by one
-    for (let i = 0; i < imagePaths.length; i++) {
-      db.query(query3, [imagePaths[i], productId], (err) => {
+    //console.log("This is img path :======== ", imagePaths);
+    // if category is all insert it will go to image insert
+    for (let j = 0; j < imagePaths.length; j++) {
+      //console.log(imagePaths[j]);
+      const query3 = "INSERT INTO images (image_url, product_id) VALUES (?, ?)";
+      db.query(query3, [imagePaths[j], productId], (err, result) => {
         if (err) return res.status(500).json({ error: err });
-
-        // If we're on the last image, send a success response
-        if (i === imagePaths.length - 1) {
-          res.status(200).json({ message: "Product created successfully" });
-        }
+        //console.log("img ", result);
       });
     }
+    res.status(200).json({ message: "Product created successfully" });
   });
 };
 
@@ -139,6 +148,7 @@ exports.getoneProduct = (req, res) => {
         products.description,
         products.price,
         products.stock_quantity,
+        products.sold_quantity,
         product_categories.category_id,
         category.category_name,
         images.image_url
@@ -165,7 +175,9 @@ exports.getoneProduct = (req, res) => {
     const categories = [
       ...new Set(result.map((row) => row.category_name).filter((name) => name)),
     ]; // Unique category names
-    const images = result.map((row) => row.image_url).filter((url) => url); // Image URLs
+    const images = [
+      ...new Set(result.map((row) => row.image_url).filter((url) => url)),
+    ];
 
     const productData = {
       product_id: result[0].product_id, // Include product_id
@@ -173,6 +185,7 @@ exports.getoneProduct = (req, res) => {
       description: result[0].description,
       price: result[0].price,
       stock_quantity: result[0].stock_quantity,
+      sold_quantity: result[0].sold_quantity,
       categories,
       images,
     };
@@ -181,9 +194,9 @@ exports.getoneProduct = (req, res) => {
   });
 };
 
-//getallproduct
+// Get all products
 exports.getallProduct = (req, res) => {
-  // query
+  // Query
   const query = `
       SELECT 
         products.product_id,
@@ -191,6 +204,7 @@ exports.getallProduct = (req, res) => {
         products.description,
         products.price,
         products.stock_quantity,
+        products.sold_quantity,
         product_categories.category_id,
         category.category_name,
         images.image_url
@@ -208,10 +222,8 @@ exports.getallProduct = (req, res) => {
       return res.status(500).json({ error: err });
     }
 
-    // store
     const productsMap = {};
 
-    // store each product to map
     result.forEach((row) => {
       const {
         product_id,
@@ -219,37 +231,54 @@ exports.getallProduct = (req, res) => {
         description,
         price,
         stock_quantity,
-        category_id,
+        sold_quantity,
         category_name,
         image_url,
       } = row;
 
-      // create product
-      if (!productsMap[product_name]) {
-        productsMap[product_name] = {
+      // Check if product already exists in the map
+      if (!productsMap[product_id]) {
+        productsMap[product_id] = {
           product_id,
           product_name,
           description,
           price,
           stock_quantity,
-          categories: [], // Change to store category names
-          images: [],
+          sold_quantity,
+          categories: [], // Store category names
+          images: [], // Store image URLs
         };
       }
 
-      // Add category name if it exists
-      if (category_name) {
-        productsMap[product_name].categories.push(category_name); // Store category name instead of ID
+      // **Modified: Add unique categories and images**
+      const product = productsMap[product_id];
+
+      if (category_name && !product.categories.includes(category_name)) {
+        product.categories.push(category_name);
       }
-      if (image_url) {
-        productsMap[product_name].images.push(image_url);
+
+      // check img unique first and push
+      if (image_url && !product.images.includes(image_url)) {
+        product.images.push(image_url);
       }
     });
 
-    // Convert the productsMap to an array
+    // Convert json array
     const productList = Object.values(productsMap);
 
-    // Return the product list as JSON
     res.status(200).json(productList);
+  });
+};
+
+exports.deleteProduct = (req, res) => {
+  const id = req.params.id;
+  //delete
+  const query = "DELETE FROM products where product_id = ?";
+
+  db.query(query, [id], (err, result) => {
+    if (err) return res.status(500).json(err);
+    if (result.affectedRows === 0)
+      return res.status(404).json("No product with this id");
+    return res.status(200).json("Delete product success");
   });
 };

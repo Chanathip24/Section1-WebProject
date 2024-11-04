@@ -42,7 +42,7 @@ const Video = () => {
         </h3>
         {/* Video placeholder */}
         <figure className="flex  w-full h-64 justify-center items-center  ">
-          <div className="bg-gray-300 w-1/2 h-64 flex justify-center items-center">
+          <div className="bg-gray-300 w-full md:w-1/2 h-64 flex justify-center items-center">
             <span className="text-gray-500">VIDEO</span>
           </div>
         </figure>

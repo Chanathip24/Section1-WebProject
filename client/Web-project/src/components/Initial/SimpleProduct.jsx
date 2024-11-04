@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Items from "./ProductCard";
 
-const SimpleProduct = () => {
+const SimpleProduct = ({data}) => {
   //active
   const [isActive, setActive] = useState(1);
   //button style
@@ -35,7 +35,7 @@ const SimpleProduct = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 overflow-hidden place-items-center lg:grid-cols-2 mt-4 ">
+        <div className="grid gap-2 md:gap-0 grid-cols-1 overflow-hidden place-items-center lg:grid-cols-2 mt-4 ">
           <div className="relative  w-full cursor-pointer rounded-lg">
             <div className="gradient  absolute bottom-0 left-0 w-full h-full rounded-lg text-white flex justify-end flex-col p-8 gap-3">
               <h1 className="text-3xl font-bold tracking-wider">
@@ -62,9 +62,10 @@ const SimpleProduct = () => {
               className="rounded-lg object-cover h-[300px] md:h-auto"
             />
           </div>
-          <div className="flex flex-col items-center md:flex-row justify-center md:gap-10">
-            <Items />
-            <Items />
+          <div className="flex flex-col gap-2  items-center md:flex-row justify-center md:gap-10">
+            {data && Array.isArray(data) && data.length > 0 ? data.map((product,key)=>{
+              return <Items key={key} data={product} />
+            }) : "No product"}
           </div>
         </div>
       </section>

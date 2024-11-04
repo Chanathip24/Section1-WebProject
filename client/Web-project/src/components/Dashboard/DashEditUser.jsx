@@ -21,7 +21,7 @@ const DashEditUser = () => {
     phone: "",
     email: "",
     password: "",
-    role: "CUSTOMER",
+    role: "",
     address: "",
   });
   //checkclick
@@ -132,6 +132,7 @@ const DashEditUser = () => {
             name="role"
             className={inputstyle}
           >
+            <option value=""></option>
             <option value="CUSTOMER">CUSTOMER</option>
             <option value="ADMIN">ADMIN</option>
           </select>

@@ -47,7 +47,7 @@ const Navbar = () => {
     return "hover:cursor-pointer underline-animation toleft focus:outline-none";
   };
   return (
-    <header>
+    <>
       {/* คอม */}
       <nav className="sticky top-0 z-10 bg-white hidden container mx-auto font-light text-sm lg:flex justify-between items-center py-2">
         <div className="flex items-center">
@@ -164,7 +164,13 @@ const Navbar = () => {
             </NavLink>
           </li>
 
-          <li className="text-xl">Contact us</li>
+          <NavLink
+            to="/contactus"
+            className={({ isActive }) => (isActive ? "font-bold" : "")}
+          >
+            <li className="text-xl">Contact us</li>
+          </NavLink>
+
           <NavLink
             to="/learnmore"
             className={({ isActive }) => (isActive ? "font-bold" : "")}
@@ -178,7 +184,12 @@ const Navbar = () => {
           >
             <li className="text-xl">Search</li>
           </NavLink>
-          <li className="text-xl">Our team</li>
+          <NavLink
+            to="/aboutus"
+            className={({ isActive }) => (isActive ? "font-bold" : "")}
+          >
+            <li className="text-xl">About us</li>
+          </NavLink>
         </ul>
         <ul className={`flex flex-col gap-3  mt-3`}>
           {isLogin === false ? (
@@ -224,7 +235,7 @@ const Navbar = () => {
           )}
         </ul>
       </nav>
-    </header>
+    </>
   );
 };
 

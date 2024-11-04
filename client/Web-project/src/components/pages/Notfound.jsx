@@ -4,8 +4,8 @@ const Notfound = () => {
   return (
     <main className="min-h-screen bg-[#FAF9F6] flex justify-center items-center">
       <section className="text-center">
-        <h1 className=" font-bold text-[8rem] animate-bounce">404</h1>
-        <p className="font-semibold text-xl">Whoops... Page Not Found !!!</p>
+        <h1 className=" font-bold text-[8rem] animate-bounce">🎅</h1>
+        <p className="font-semibold text-xl">Whoops... 404 Page Not Found !!!</p>
         <p className="mt-2">
           The page you're looking for doesn't exist or has been moved.
         </p>
