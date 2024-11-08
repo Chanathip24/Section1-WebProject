@@ -5,30 +5,14 @@ import Footer from "../Initial/Footer";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Loading from "../Initial/Loading";
+import useFetchData from "../../hooks/useFetchData";
 
 const ProductDetail = () => {
-  const [loading, setLoading] = useState(true);
   //product data by id
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-
   //fetch
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:8081/product/product/" + id
-        );
-        setProduct(res.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProduct();
-    console.log(product);
-  }, []);
+  const {data:product,loading,error } = useFetchData("http://localhost:8081/product/product/" + id)
+  
   if (loading) return <Loading />;
   return (
     <>
@@ -42,7 +26,7 @@ const ProductDetail = () => {
 
         <section className="flex flex-col md:flex-row flex-wrap justify-center md:flex-nowrap gap-8">
           {/* img of product */}
-          <div className="h-[1000px] w-1/2 flex-col items-center justify-center">
+          <div className="h-max md:w-1/2 flex-col items-center justify-center">
             {Array.isArray(product.images) && product.images.length > 0 && (
               <img src={`http://localhost:8081/${product.images[0]}`} className="border w-full h-[50%] bg-gray-200 text-gray-500 text-2xl flex justify-center object-cover items-center" />
                 
