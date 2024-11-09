@@ -49,10 +49,10 @@ const   Topseller = ({ data }) => {
           </button>
         </motion.div>
 
-        <motion.div variants={parentVarient} initial="hidden" whileInView="visible" className="flex items-center flex-col md:flex-row mt-4 gap-6 justify-center">
+        <motion.div variants={parentVarient} initial="hidden" whileInView="visible" viewport={{once:true}} className="flex items-center flex-col md:flex-row mt-4 gap-6 justify-center">
           {data && Array.isArray(data) && data.length > 0
             ? data.map((product, key) => {
-                return <motion.div variants={itemVarient}><Items data={product} key={key} /></motion.div>;
+                return <motion.div key={key} variants={itemVarient}><Items data={product}  /></motion.div>;
               })
             : "Loading..."}
         </motion.div>

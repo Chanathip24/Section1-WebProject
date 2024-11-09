@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {delay, motion} from 'framer-motion'
+//component
 import Items from "./ProductCard";
 
 const SimpleProduct = ({data}) => {
@@ -17,9 +19,17 @@ const SimpleProduct = ({data}) => {
 
   //carousel branding
   const little = "w-max rounded text-black px-2 text-sm";
+
+  //animation
+  const animation = {
+    hidden : {opacity : 0,y :20},
+    visible : {opacity : 1, y:0, transition:{
+      delay : 0.3
+    }},
+  }
   return (
     <>
-      <section className="container mx-auto mt-8">
+      <motion.section variants={animation} initial="hidden" whileInView="visible" viewport={{once : true}} className="container mx-auto mt-8">
         <div className="flex p-2 gap-x-8 gap-y-3 flex-wrap">
           <button onClick={() => setbutton(1)} className={buttonstyle(1)}>
             Tea
@@ -68,7 +78,7 @@ const SimpleProduct = ({data}) => {
             }) : "No product"}
           </div>
         </div>
-      </section>
+      </motion.section>
       <hr className="container mx-auto my-16" />
     </>
   );

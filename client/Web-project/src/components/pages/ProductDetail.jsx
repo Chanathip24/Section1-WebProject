@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Announcement from "../Initial/Announcement";
 import Navbar from "../Initial/Navbar";
 import Footer from "../Initial/Footer";
-import axios from "axios";
+
 import { useParams } from "react-router-dom";
 import Loading from "../Initial/Loading";
 import useFetchData from "../../hooks/useFetchData";
@@ -11,8 +11,12 @@ const ProductDetail = () => {
   //product data by id
   const { id } = useParams();
   //fetch
-  const {data:product,loading,error } = useFetchData("http://localhost:8081/product/product/" + id)
-  
+  const {
+    data: product,
+    loading,
+    error,
+  } = useFetchData("http://localhost:8081/product/product/" + id);
+
   if (loading) return <Loading />;
   return (
     <>
@@ -28,9 +32,10 @@ const ProductDetail = () => {
           {/* img of product */}
           <div className="h-max md:w-1/2 flex-col items-center justify-center">
             {Array.isArray(product.images) && product.images.length > 0 && (
-              <img src={`http://localhost:8081/${product.images[0]}`} className="border w-full h-[50%] bg-gray-200 text-gray-500 text-2xl flex justify-center object-cover items-center" />
-                
-              
+              <img
+                src={`http://localhost:8081/${product.images[0]}`}
+                className="rounded-xl border w-full h-[50%] bg-gray-200 text-gray-500 text-2xl flex justify-center object-cover items-center"
+              />
             )}
 
             {/* sub img */}
@@ -39,13 +44,13 @@ const ProductDetail = () => {
                 product.images.length > 0 &&
                 product.images.map((image, key) => {
                   return (
-                    <img key={key} src={`http://localhost:8081/${image}`} className="object-cover w-[120px] h-[100px] border   bg-blue-200 text-gray-500 text-2xl flex justify-center items-center" />
-                      
-                    
+                    <img
+                      key={key}
+                      src={`http://localhost:8081/${image}`}
+                      className="rounded object-cover w-[120px] h-[100px] border   bg-blue-200 text-gray-500 text-2xl flex justify-center items-center"
+                    />
                   );
                 })}
-
-
             </div>
           </div>
 
@@ -80,9 +85,16 @@ const ProductDetail = () => {
                 )}
               </div>
             </div>
-            <button className="bg-green-500 text-white px-4 py-2 rounded-lg w-full font-semibold hover:bg-green-600">
-              BUY
-            </button>
+            {product.stock_quantity > 0 ? (
+              <button className="bg-green-500 text-white px-4 py-2 rounded-lg w-full font-semibold hover:bg-green-600">
+                BUY
+              </button>
+            ) : (
+              <button className="bg-gray-600 text-white px-4 py-2 rounded-lg w-full font-semibold cursor-not-allowed">
+                Out of stock! 
+              </button>
+            )}
+
             <ul className="text-gray-700 text-sm space-y-1">
               <li>• Get free gift for order above 300 baht</li>
               <li>• ALERT! Drink happy, feel happy.</li>

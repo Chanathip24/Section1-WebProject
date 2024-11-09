@@ -1,15 +1,19 @@
 import React from "react";
-
+import ReactPlayer from "react-player";
 const Video = () => {
   return (
     <>
       {/*sec1*/}
       {/* IMAGE */}
       <section className=" mb-16 flex justify-center items-center">
-        <figure className="flex flex-col md:flex-row items-center gap-5 w-3/4">
+        <figure className="flex flex-col md:flex-row items-center gap-5 md:gap-10 w-3/4">
           {/* Image placeholder */}
           <div className=" bg-gray-300 w-full md:w-1/2  h-64 flex justify-center items-center">
-            <span>IMG</span>
+            <img
+              src="https://www.nestleprofessional.us/sites/default/files/styles/np_article_big/public/2024-03/17-Easy-deas-for-Promoting-Beverages-Nestle-Professional-Foodservice-1440x810.jpg?h=2d44e782&itok=_dmQDg4l"
+              className="rounded-lg"
+              alt="picture of people"
+            />
           </div>
           {/* Text1 */}
           <figcaption className="w-full md:w-1/2">
@@ -32,8 +36,8 @@ const Video = () => {
       </section>
 
       {/*sec2*/}
-      {/* Text2 */}
-      <section className="bg-white py-16 px-4 md:px-8 max-w-6xl mx-auto text-center">
+      {/* Video */}
+      <section className="containerpy-16 px-4 md:px-8 max-w-6xl mx-auto text-center">
         <h1 className="text-sm font-thin text-gray-700 uppercase mb-4">
           Our Product
         </h1>
@@ -41,9 +45,16 @@ const Video = () => {
           5000+ plastic bottles saved
         </h3>
         {/* Video placeholder */}
-        <figure className="flex  w-full h-64 justify-center items-center  ">
-          <div className="bg-gray-300 w-full md:w-1/2 h-64 flex justify-center items-center">
-            <span className="text-gray-500">VIDEO</span>
+        <figure className="flex w-full h-64 justify-center items-center  ">
+          <div className="bg-gray-300 w-full md:w-1/2 h-72 flex justify-center items-center">
+            <ReactPlayer
+              playing={true}
+              muted = {true}
+              loop ={true}
+              url="https://www.youtube.com/watch?v=lyCYBvGeSUs"
+              height="100%"
+              width="100%"
+            />
           </div>
         </figure>
       </section>

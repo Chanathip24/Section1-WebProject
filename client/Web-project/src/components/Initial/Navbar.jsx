@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { delay, motion } from "framer-motion";
 //icon
 import { CiUser } from "react-icons/ci";
 import { CiShoppingCart } from "react-icons/ci";
@@ -66,58 +65,55 @@ const Navbar = () => {
   return (
     <>
       {/* คอม */}
-      <motion.nav
-        variants={parentVarient}
-        initial="hidden"
-        animate="visible"
+      <nav
         className="sticky top-0 z-10 bg-white hidden container mx-auto font-light text-sm lg:flex justify-between items-center py-2"
       >
         <div className="flex items-center">
           <h1 className="font-bold text-2xl mr-10">
             <NavLink to="/">Leaf & Sip</NavLink>
           </h1>
-          <motion.ul variants={parentVarient} className="flex gap-10">
-            <motion.li variants={itemVarient} className={menustyle()}>
+          <ul  className="flex gap-10">
+            <li  className={menustyle()}>
               <NavLink
                 to="/shop"
                 className={({ isActive }) => (isActive ? "font-bold" : "")}
               >
                 Shop
               </NavLink>
-            </motion.li>
-            <motion.li variants={itemVarient} className={menustyle()}>
+            </li>
+            <li  className={menustyle()}>
               <NavLink
                 to="/contactus"
                 className={({ isActive }) => (isActive ? "font-bold" : "")}
               >
                 Contact us
               </NavLink>
-            </motion.li>
-            <motion.li variants={itemVarient} className={menustyle()}>
+            </li>
+            <li  className={menustyle()}>
               <NavLink
                 to="/learnmore"
                 className={({ isActive }) => (isActive ? "font-bold" : "")}
               >
                 Learn more
               </NavLink>
-            </motion.li>
-            <motion.li variants={itemVarient} className={menustyle()}>
+            </li>
+            <li  className={menustyle()}>
               <NavLink
                 to="/search"
                 className={({ isActive }) => (isActive ? "font-bold" : "")}
               >
                 Search
               </NavLink>
-            </motion.li>
-            <motion.li variants={itemVarient} className={menustyle()}>
+            </li>
+            <li  className={menustyle()}>
               <NavLink
                 to="/aboutus"
                 className={({ isActive }) => (isActive ? "font-bold" : "")}
               >
                 About Us
               </NavLink>
-            </motion.li>
-          </motion.ul>
+            </li>
+          </ul>
         </div>
 
         <ul className="flex gap-8 items-center">
@@ -152,7 +148,7 @@ const Navbar = () => {
             <CiShoppingCart />
           </li>
         </ul>
-      </motion.nav>
+      </nav>
 
       {/* มือถือ */}
       <nav className="sticky top-0 z-10 bg-white lg:hidden p-5 flex items-center justify-between">

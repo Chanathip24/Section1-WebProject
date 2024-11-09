@@ -5,29 +5,79 @@ import toast, { Toaster } from "react-hot-toast";
 
 const LoginForm = () => {
   axios.defaults.withCredentials = true;
+  
   //navigate
   const navigate = useNavigate();
+  
+  //loading state
+  const [isLoading, setIsLoading] = useState(false);
+  
+  //errors state
+  const [errors, setErrors] = useState({});
+
   //user object
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const handlechange = (e) => {
-    setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const getInputStyle = (fieldName) => {
+    return `p-2 focus:outline-none text-[16px] rounded-md border ${
+      errors[fieldName] ? 'border-red-500' : 'border-gray-900'
+    }`;
   };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!user.email) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(user.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    // Password validation
+    if (!user.password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handlechange = (e) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
   const onsubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
     try {
       const res = await axios.post("http://localhost:8081/user/login", user);
       
-      if (res.status === 200) return navigate("/");
+      if (res.status === 200) {
+        toast.success("Login successful!");
+        return navigate("/");
+      }
     } catch (error) {
-      const message = error.response.data
-      toast.error(message)
+      const message = error.response?.data || "Login failed";
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
     }
   };
-  const inputstyle =
-    "p-2 focus:outline-none text-[16px] rounded-md border border-gray-900";
 
   return (
     <>
@@ -39,24 +89,34 @@ const LoginForm = () => {
           name="email"
           id="email"
           placeholder="Email"
-          className={inputstyle}
+          className={getInputStyle("email")}
           onChange={handlechange}
         />
+        {errors.email && (
+          <span className="text-red-500 text-sm mt-[-8px]">{errors.email}</span>
+        )}
 
         <label htmlFor="password">Password</label>
         <input
           type="password"
           name="password"
-          className={inputstyle}
+          className={getInputStyle("password")}
           placeholder="Password"
           onChange={handlechange}
         />
+        {errors.password && (
+          <span className="text-red-500 text-sm mt-[-8px]">{errors.password}</span>
+        )}
+
         <p className="underline text-gray-600 font-thin">FORGOT PASSWORD</p>
         <button
           onClick={onsubmit}
-          className="p-2 border border-black bg-black text-white rounded-lg hover:bg-transparent hover:text-black transition duration-300"
+          disabled={isLoading}
+          className={`p-2 border border-black bg-black text-white rounded-lg hover:bg-transparent hover:text-black transition duration-300 ${
+            isLoading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          LOGIN
+          {isLoading ? "Logging in..." : "LOGIN"}
         </button>
       </form>
     </>

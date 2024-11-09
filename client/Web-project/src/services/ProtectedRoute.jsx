@@ -13,7 +13,7 @@ const ProtectedRoute = ({ role, children }) => {
     const checkLogin = async () => {
       try {
         const res = await axios.get("http://localhost:8081/user/checklogin");
-        
+      
         if (res.status === 200 && res.data.role === role ) {
           setPass(true); 
         } else {

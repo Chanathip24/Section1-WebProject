@@ -1,44 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+//swiper style
+import "swiper/css";
+
+//import
+import { Autoplay } from "swiper/modules";
 
 const SubCarousel2 = () => {
-  const [index, setIndex] = useState(0);
-
-  //Go next Slide
-  const NextSlide = () => {
-    setIndex((prev) => {
-      if (prev === 2 - 1) return 0; //จำนวน slide
-      return prev + 1;
-    });
+  //animation
+  const animation = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.3,
+      },
+    },
   };
 
-  useEffect(() => {
-    const myinterval = setInterval(() => {
-      NextSlide();
-    }, 5000);
-    return () => clearInterval(myinterval);
-  }, []);
+  //list of quote
+  const quote = [
+    {
+      data: '"Mastering the art of sipping, one refreshment at a time."',
+      author: "Top",
+    },
+    { data: '"Brewed to perfection, enjoyed in every sip."', author: "Achi" },
+    {
+      data: '"Because every drop is worth its weight in gold."',
+      author: "Gun",
+    },
+    {
+      data: '"Pour, sip, and chill—refreshment like no other."',
+      author: "Jab",
+    },
+  ];
+
   return (
-    <section className="container mx-auto mt-5">
-      <div className="flex overflow-hidden">
-        <div
-          className="flex flex-shrink-0 w-full justify-center items-center transition-all ease-in-out duration-700 flex-col h-[250px]"
-          style={{ translate: `${-100 * index}%` }}
-        >
-          <h1 className="text-center font-bold text-2xl md:text-5xl tracking-widest w-1/2 ">
-            This is kumkom1
-          </h1>
-          <p className="">CEO</p>
-        </div>
-        <div
-          className="flex flex-shrink-0 w-full justify-center items-center transition-all ease-in-out duration-700 flex-col h-[250px]"
-          style={{ translate: `${-100 * index}%` }}
-        >
-          <h1 className="text-center font-bold text-2xl md:text-5xl tracking-widest w-1/2 ">
-            This is kumkom2
-          </h1>
-          <p className="">CEO</p>
-        </div>
-      </div>
+    <section className="container mx-auto">
+      <Swiper
+        modules={[Autoplay]}
+        autoplay={{ delay: 4000, disableOnInteraction: true }}
+        className="h-44"
+      >
+        {quote.map((item, key) => {
+          return (
+            <SwiperSlide key={key} className="h-full flex items-center">
+              <article className="text-center w-full">
+                <h1 className="text-4xl font-semibold">{item.data}</h1>
+                <p className="mt-2">{item.author}</p>
+              </article>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
     </section>
   );
 };

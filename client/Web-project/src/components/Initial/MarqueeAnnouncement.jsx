@@ -1,20 +1,51 @@
 import React from "react";
-//icon
-
-import Marqueetext from "./Marqueetext";
+import { ImCheckmark } from "react-icons/im";
 const MarqueeAnnouncement = () => {
-  
   return (
-    <section className="container mx-auto rounded-md py-0.5 font-light" style={{ backgroundColor: "#BCF997" }}>
-      <div className="marquee">
-        <div>
-          <Marqueetext/>
-          <Marqueetext/>
-          <Marqueetext/>
-          <Marqueetext/>
+    <>
+      {/* announcement */}
+      <div className="bg-[#BCF997] rounded-lg container mx-auto relative flex overflow-x-hidden">
+        <div className="py-1 animate-marquee whitespace-nowrap">
+          <span className="mx-16">
+            <ImCheckmark className="inline" /> Zero sugar
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" /> Natural Ingredients
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" /> Refreshing
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" />
+            Clean, Green, and Mean
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" />
+            Sippin' Good, Feelin' Great
+          </span>
+        </div>
+
+        <div className="absolute top-0 py-1  animate-marquee2 whitespace-nowrap">
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" /> Zero sugar
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" /> Natural Ingredients
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" /> Refreshing
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" />
+            Clean, Green, and Mean
+          </span>
+          <span className="mx-16">
+            <ImCheckmark className="inline mr-2" />
+            Sippin' Good, Feelin' Great
+          </span>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 

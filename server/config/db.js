@@ -6,9 +6,21 @@ const db = mysql.createPool(
         user: "CHANATHIP",
         password : "@24Chanathipdb",
         database : "mydb",
-        connectTimeout : 10000
+        connectTimeout : 10000,
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0
     }
 )
+
+db.getConnection((err, connection) => {
+    if (err) {
+        console.error('Database connection failed: ' + err.stack);
+        return;
+    }
+    console.log('Connected to the database as id ' + connection.threadId);
+    connection.release();  
+});
 
 
 module.exports = db;

@@ -68,6 +68,7 @@ const Home = () => {
         <MarqueeAnnouncement />
         <Topseller data={data.slice(0, 3)} />
         <Brand />
+        <hr className="container mx-auto"/>
         <Slogan />
 
         <SimpleProduct data={data.slice(1, 3)} />

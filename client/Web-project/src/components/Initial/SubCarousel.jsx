@@ -1,8 +1,19 @@
 import React from "react";
-
+import {motion} from 'framer-motion'
 const SubCarousel = () => {
+  //animation
+  const animation = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.3,
+      },
+    },
+  };
   return (
-    <section className="flex justify-center container mx-auto my-12">
+    <motion.section variants={animation} initial="hidden" whileInView="visible" viewport={{once:true}} className="flex justify-center container mx-auto my-12">
       <div className="relative w-11/12 md:w-full h-500 md:h-1/2 rounded-xl overflow-hidden">
         <div className=" absolute flex flex-col top-0 w-full h-full md:p-0 justify-center items-center text-white gradient ">
           <h1 className="text-3xl md:text-4xl tracking-widest">
@@ -19,7 +30,7 @@ const SubCarousel = () => {
           alt="Find Your Taste"
         />
       </div>
-    </section>
+    </motion.section>
   );
 };
 
