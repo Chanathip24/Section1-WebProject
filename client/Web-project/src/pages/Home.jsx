@@ -21,7 +21,7 @@ const Home = () => {
   const {data,loading,error} = useFetchData("http://localhost:8081/product/getall")
   //loading
   if (loading) return <Loading />;
-  if(error) return <h1>{error}</h1>
+  if(error) return <h1>Error isus  </h1>
   return (
     <>
     
