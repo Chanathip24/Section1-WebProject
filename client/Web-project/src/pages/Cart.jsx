@@ -3,11 +3,12 @@ import { Trash2, Plus, Minus } from "lucide-react";
 import Navbar from "../components/Initial/Navbar";
 import Announcement from "../components/Initial/Announcement";
 import Footer from "../components/Initial/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
-
+  const navigate = useNavigate()
   useEffect(() => {
     const loadCartFromStorage = () => {
       const storedCart = localStorage.getItem("cart");
@@ -54,7 +55,7 @@ const Cart = () => {
     <>
       <Announcement />
       <Navbar />
-      <main className="min-h-screen  bg-zinc-100">
+      <main className="min-h-screen  bg-zinc-200/50">
         <section className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row lg:justify-between gap-8">
             {/* Main Cart Section */}
@@ -170,6 +171,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <button
+                  onClick={()=> navigate('/checkout')}
                     className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold mt-6 hover:bg-green-600 transition-colors"
                     disabled={cartItems.length === 0}
                   >

@@ -167,16 +167,28 @@ const Navbar = () => {
           <h1 className="font-bold text-2xl cursor-pointer">
             <NavLink to="/">Leaf & Sip</NavLink>{" "}
           </h1>
-
-          {toggle ? (
-            <h1 onClick={swapnav} className="text-2xl cursor-pointer">
-              <IoClose />
-            </h1>
-          ) : (
-            <h1 onClick={swapnav} className="text-2xl cursor-pointer">
-              <RxHamburgerMenu />
-            </h1>
-          )}
+          <div className="flex gap-5">
+            {/* Cart */}
+            <NavLink to="/cart" className="relative">
+              <CiShoppingCart size={24} className="text-gray-700" />
+              {totalProduct > 0 ? (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hover:animate-bounce">
+                  {totalProduct}
+                </span>
+              ) : (
+                ""
+              )}
+            </NavLink>
+            {toggle ? (
+              <h1 onClick={swapnav} className="text-2xl cursor-pointer">
+                <IoClose />
+              </h1>
+            ) : (
+              <h1 onClick={swapnav} className="text-2xl cursor-pointer">
+                <RxHamburgerMenu />
+              </h1>
+            )}
+          </div>
         </nav>
       </header>
 
@@ -244,11 +256,6 @@ const Navbar = () => {
                     <CiUser />
                   </li>
                 </NavLink>
-                {/* Cart */}
-                <li className="relative flex items-center text-3xl ">
-                  <div className="absolute animate-pulse top-0 -right-1 rounded-full border p-2 border-red-500 bg-red-500"></div>
-                  <CiShoppingCart />
-                </li>
               </div>
             </>
           ) : (

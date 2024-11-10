@@ -59,7 +59,7 @@ const Footer = () => {
 
 
       {/* มือถือ */}
-      <footer className=' lg:hidden bg-gray-100 py-10 px-16 md:px-4 mt-20'>
+      <footer className=' lg:hidden bg-gray-100 py-10 px-16 md:px-4 '>
         <div className="container mx-auto">
           <h1 className='text-4xl font-bold tracking-wider mb-1'>Refresh your drink, not the planet.</h1>
           <p className='font-light'>Refresh your drink, not the planet.</p>
