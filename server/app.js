@@ -9,7 +9,7 @@ const userRoutes = require('./routes/userRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
 const categoryRoutes = require("./routes/categoryRoutes.js")
 //PORT
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8081
 
 //middleware
 app.use(express.urlencoded({extended: true}))

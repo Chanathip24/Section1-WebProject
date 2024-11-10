@@ -1,15 +1,16 @@
 import React from "react";
-import useFetchData from "../../hooks/useFetchData";
+import useFetchData from "../hooks/useFetchData";
 import { SwiperSlide } from "swiper/react";
 
 //component
-import Navbar from "../Initial/Navbar";
-import Announcement from "../Initial/Announcement";
-import MarqueeAnnouncement from "../Initial/MarqueeAnnouncement";
-import Items from "../Initial/ProductCard";
-import Footer from "../Initial/Footer";
-import SwiperCarousel from "../Initial/SwiperCarousel";
-import Loading from "../Initial/Loading";
+import Navbar from "../components/Initial/Navbar";
+import Announcement from "../components/Initial/Announcement";
+import MarqueeAnnouncement from "../components/Initial/MarqueeAnnouncement";
+
+import Items from "../components/Initial/ProductCard";
+import Footer from "../components/Initial/Footer";
+import SwiperCarousel from "../components/Initial/SwiperCarousel";
+import Loading from "../components/Initial/Loading";
 
 const Shop = () => {
   //all product fetching
@@ -57,7 +58,7 @@ const Shop = () => {
         </SwiperSlide>
       </SwiperCarousel>
       <MarqueeAnnouncement />
-      <section className="mt-5  container mx-auto ">
+      <section className="mt-5 min-h-screen  container mx-auto ">
         <h1 className="ml-2 md:ml-0">
           Home {">"} <span className="font-bold">Shop</span>{" "}
         </h1>

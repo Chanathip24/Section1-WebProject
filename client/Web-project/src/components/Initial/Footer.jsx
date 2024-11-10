@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <>
       {/* คอม */}
-      <footer className=' hidden lg:block bg-gray-100 py-8 mt-20'>
+      <footer className=' hidden lg:block bg-gray-100 py-8 '>
         <div className="container mx-auto">
           <h1 className='text-4xl font-bold tracking-wider mb-1'>Refresh your drink, not the planet.</h1>
           <p className='font-light'>Refresh your drink, not the planet.</p>

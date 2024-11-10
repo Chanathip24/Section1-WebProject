@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 //pages
-import Home from "./components/pages/Home";
-import Shop from "./components/pages/Shop";
-import Login from "./components/pages/Login";
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import Login from "./pages/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
 import DashProduct from "./components/Dashboard/DashProduct";
 import DashUsers from "./components/Dashboard/DashUsers";
@@ -13,16 +13,19 @@ import DashAddProduct from "./components/Dashboard/DashAddProduct";
 import DashEditProduct from "./components/Dashboard/DashEditProduct";
 import Loading from "./components/Initial/Loading";
 import ProtectedRoute from "./services/ProtectedRoute";
-import Learnmore from "./components/pages/Learnmore";
-import Search from "./components/pages/Search";
+import Learnmore from "./pages/Learnmore";
+import Search from "./pages/Search";
 import DashCategory from "./components/Dashboard/DashCategory";
 import DashAddCategory from "./components/Dashboard/DashAddCategory";
 import DashEditCategory from "./components/Dashboard/DashEditCategory";
-import Notfound from "./components/pages/Notfound";
-import Aboutus from "./components/pages/Aboutus";
-import ProductDetail from "./components/pages/ProductDetail";
-import Contactus from "./components/pages/Contactus";
-
+import Notfound from "./pages/Notfound";
+import Aboutus from "./pages/Aboutus";
+import ProductDetail from "./pages/ProductDetail";
+import Contactus from "./pages/Contactus";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Failed from "./pages/Failed";
+import Success from "./pages/Success";
 function App() {
   return (
     <>
@@ -38,6 +41,10 @@ function App() {
           <Route path="/aboutus" element={<Aboutus/>} />
           <Route path="/contactus" element={<Contactus/>} />
           <Route path="/product/:id" element={<ProductDetail/>} />
+          <Route path="/cart" element={<Cart/>} />
+          <Route path="/checkout" element={<Checkout/>} />
+          <Route path="/success" element={<Success/>} />
+          <Route path="/failed" element={<Failed/>} />
 
           {/* check loading */}
           {/* <Route path="/loading" element={<Loading/>} /> */}

@@ -29,14 +29,16 @@ const DashCategory = () => {
     fetchData();
   }, []);
 
-  const deleteCatagory = async (id)=>{
+  const deleteCatagory = async (id) => {
     try {
-        const res = await axios.delete("http://localhost:8081/category/delete/"+id)
-        setData((data)=>data.filter((item)=>item.category_id !== id))
+      const res = await axios.delete(
+        "http://localhost:8081/category/delete/" + id
+      );
+      setData((data) => data.filter((item) => item.category_id !== id));
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  }
+  };
   if (loading) return <Loading />;
   return (
     <main className="lg:grid lg:grid-cols-[250px_1fr] fixed w-full h-screen">
@@ -47,40 +49,46 @@ const DashCategory = () => {
           total={data.length}
           url={"/dashboard/category/addcategory"}
         />
-        <table className="table-auto text-left w-full  border-separate border-spacing-y-4">
-          <thead className="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
-            <tr>
-              <th className="px-4 py-2 border">ID</th>
-              <th className="px-4 py-2 border">Category Name</th>
-              <th className="px-4 py-2 border"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {data && Array.isArray(data) ? (
-              data.map((item, key) => {
-                return (
-                  <tr key={key}>
-                    <td className="px-4">{item.category_id}</td>
-                    <td className="px-4">{item.category_name}</td>
-                    <td className="px-4 flex gap-4">
-                      <Link to={`/dashboard/category/editcategory/${item.category_id}`}>
-                        <button className="px-4 py-1 cursor-pointer bg-yellow-400 rounded-lg text-white hover:bg-yellow-500 transition">
-                          Manage
-                        </button>
-                      </Link>
+        <div className="overflow-x-auto">
+          <table className="table-auto text-left w-full  border-separate border-spacing-y-4">
+            <thead className="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
+              <tr>
+                <th className="px-4 py-2 border">ID</th>
+                <th className="px-4 py-2 border">Category Name</th>
+                <th className="px-4 py-2 border"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {data && Array.isArray(data) ? (
+                data.map((item, key) => {
+                  return (
+                    <tr key={key}>
+                      <td className="px-4">{item.category_id}</td>
+                      <td className="px-4">{item.category_name}</td>
+                      <td className="px-4 flex gap-4">
+                        <Link
+                          to={`/dashboard/category/editcategory/${item.category_id}`}
+                        >
+                          <button className="px-4 py-1 cursor-pointer bg-yellow-400 rounded-lg text-white hover:bg-yellow-500 transition">
+                            Manage
+                          </button>
+                        </Link>
 
-                      <button className="p-1 flex cursor-pointer items-center hover:bg-red-600 transition bg-red-500 rounded text-white text-xl">
-                        <RiDeleteBinLine onClick={()=>deleteCatagory(item.category_id)}/>
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <td className="px-4">No data</td>
-            )}
-          </tbody>
-        </table>
+                        <button className="p-1 flex cursor-pointer items-center hover:bg-red-600 transition bg-red-500 rounded text-white text-xl">
+                          <RiDeleteBinLine
+                            onClick={() => deleteCatagory(item.category_id)}
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <td className="px-4">No data</td>
+              )}
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
   );

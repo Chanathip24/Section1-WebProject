@@ -4,14 +4,14 @@ import toast from "react-hot-toast";
 //icon
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 //custom hook for fetch
-import useFetchData from "../../hooks/useFetchData";
+import useFetchData from "../hooks/useFetchData";
 //component
-import Navbar from "../Initial/Navbar";
-import Announcement from "../Initial/Announcement";
-import SubCarousel from "../Initial/SubCarousel";
-import Footer from "../Initial/Footer";
-import Loading from "../Initial/Loading";
-import Items from "../Initial/ProductCard";
+import Navbar from "../components/Initial/Navbar";
+import Announcement from "../components/Initial/Announcement";
+import SubCarousel from "../components/Initial/SubCarousel";
+import Footer from "../components/Initial/Footer";
+import Loading from "../components/Initial/Loading";
+import Items from "../components/Initial/ProductCard";
 
 const Search = () => {
   //button active
@@ -136,7 +136,7 @@ const Search = () => {
     <Announcement/>
       <Navbar />
       <SubCarousel />
-      <main className="container mx-auto">
+      <main className="min-h-screen container mx-auto">
         {/* Search Form */}
         <h1 className="mb-5 md:mb-3 flex text-2xl font-semibold items-center justify-end">
           {" "}

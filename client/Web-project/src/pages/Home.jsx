@@ -2,20 +2,20 @@ import React from "react";
 
 import { SwiperSlide } from "swiper/react";
 //customhook
-import useFetchData from "../../hooks/useFetchData";
+import useFetchData from "../hooks/useFetchData";
 //element
-import Navbar from "../Initial/Navbar";
-import Announcement from "../Initial/Announcement";
-import Footer from "../Initial/Footer";
-import MarqueeAnnouncement from "../Initial/MarqueeAnnouncement";
-import Topseller from "../Initial/Topseller";
-import Brand from "../Initial/BrandPromo";
-import Slogan from "../Initial/Slogan";
-import SimpleProduct from "../Initial/SimpleProduct";
-import SubCarousel from "../Initial/SubCarousel";
-import SubCarousel2 from "../Initial/SubCarousel2";
-import Loading from "../Initial/Loading";
-import SwiperCarousel from "../Initial/SwiperCarousel";
+import Navbar from "../components/Initial/Navbar";
+import Announcement from "../components/Initial/Announcement";
+import Footer from "../components/Initial/Footer";
+import MarqueeAnnouncement from "../components/Initial/MarqueeAnnouncement";
+import Topseller from "../components/Initial/Topseller";
+import Brand from "../components/Initial/BrandPromo";
+import Slogan from "../components/Initial/Slogan";
+import SimpleProduct from "../components/Initial/SimpleProduct";
+import SubCarousel from "../components/Initial/SubCarousel";
+import SubCarousel2 from "../components/Initial/SubCarousel2";
+import Loading from "../components/Initial/Loading";
+import SwiperCarousel from "../components/Initial/SwiperCarousel";
 
 const Home = () => {
   const {data,loading,error} = useFetchData("http://localhost:8081/product/getall")
@@ -70,7 +70,6 @@ const Home = () => {
         <Brand />
         <hr className="container mx-auto"/>
         <Slogan />
-
         <SimpleProduct data={data.slice(1, 3)} />
         <SubCarousel />
         <SubCarousel2 />

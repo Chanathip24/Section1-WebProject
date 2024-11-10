@@ -1,10 +1,10 @@
 import React from "react";
-import Navbar from "../Initial/Navbar";
-import Announcement from "../Initial/Announcement";
-import Footer from "../Initial/Footer";
-import SubCarousel from "../Initial/SubCarousel";
-import Video from "../Initial/Video";
-import Whatarewe from "../Initial/Whatarewe";
+import Navbar from "../components/Initial/Navbar";
+import Announcement from "../components/Initial/Announcement";
+import Footer from "../components/Initial/Footer";
+import SubCarousel from "../components/Initial/SubCarousel";
+import Video from "../components/Initial/Video";
+import Whatarewe from "../components/Initial/Whatarewe";
 
 const Learnmore = () => {
   return (

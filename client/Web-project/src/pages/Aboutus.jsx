@@ -1,11 +1,11 @@
 import React from "react";
 
 //component
-import Announcement from "../Initial/Announcement";
-import Navbar from "../Initial/Navbar";
-import Footer from "../Initial/Footer";
-import SubCarousel from "../Initial/SubCarousel";
-import Teamcard from "../Initial/Teamcard";
+import Announcement from "../components/Initial/Announcement";
+import Navbar from "../components/Initial/Navbar";
+import Footer from "../components/Initial/Footer";
+import SubCarousel from "../components/Initial/SubCarousel";
+import Teamcard from "../components/Initial/Teamcard";
 
 const Aboutus = () => {
   return (

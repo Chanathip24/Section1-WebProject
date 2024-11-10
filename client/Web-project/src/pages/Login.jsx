@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 //component
-import Navbar from "../Initial/Navbar";
-import Footer from "../Initial/Footer";
-import Announcement from "../Initial/Announcement";
-import LoginForm from "../Initial/LoginForm";
-import RegisterForm from "../Initial/RegisterForm";
+import Navbar from "../components/Initial/Navbar";
+import Footer from "../components/Initial/Footer";
+import Announcement from "../components/Initial/Announcement";
+import LoginForm from "../components/Initial/LoginForm";
+import RegisterForm from "../components/Initial/RegisterForm";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {

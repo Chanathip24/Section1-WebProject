@@ -1,9 +1,9 @@
 import React from "react";
 //component
-import Announcement from "../Initial/Announcement";
-import Navbar from "../Initial/Navbar";
-import Footer from "../Initial/Footer";
-import SubCarousel from "../Initial/SubCarousel";
+import Announcement from "../components/Initial/Announcement";
+import Navbar from "../components/Initial/Navbar";
+import Footer from "../components/Initial/Footer";
+import SubCarousel from "../components/Initial/SubCarousel";
 
 //icon
 import { IoLocationSharp } from "react-icons/io5";
@@ -14,7 +14,7 @@ const Contactus = () => {
       <Announcement />
       <Navbar />
       <SubCarousel />
-      <main className="container mx-auto ">
+      <main className="min-h-screen container mx-auto ">
         <section>
           <div className="px-10 gap-5 md:gap-0 flex-col md:flex-row flex justify-center items-center">
             <form className="md:w-1/2">
