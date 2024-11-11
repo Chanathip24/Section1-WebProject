@@ -32,7 +32,7 @@ const Cart = () => {
 
   const updateQuantity = (productId, change) => {
     const updatedCart = cartItems.map((item) => {
-      if (item.id === productId) {
+      if (item.product_id === productId) {
         const newQuantity = Math.max(1, item.quantity + change);
         return { ...item, quantity: newQuantity };
       }
@@ -111,7 +111,7 @@ const Cart = () => {
                             <td className="text-center py-4 px-4">
                               <div className="flex items-center justify-center gap-3">
                                 <button
-                                  onClick={() => updateQuantity(item.id, -1)}
+                                  onClick={() => updateQuantity(item.product_id, -1)}
                                   className="p-1 hover:bg-gray-100 rounded"
                                 >
                                   <Minus size={16} />
@@ -120,7 +120,7 @@ const Cart = () => {
                                   {item.quantity}
                                 </span>
                                 <button
-                                  onClick={() => updateQuantity(item.id, 1)}
+                                  onClick={() => updateQuantity(item.product_id, 1)}
                                   className="p-1 hover:bg-gray-100 rounded"
                                 >
                                   <Plus size={16} />
