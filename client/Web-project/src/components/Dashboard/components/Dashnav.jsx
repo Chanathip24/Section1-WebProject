@@ -79,7 +79,7 @@ const Dashnav = () => {
       </aside>
 
       {/* มือถือ */}
-      <nav className="p-4 sticky top-0 flex items-center justify-between lg:hidden">
+      <nav className="z-10 bg-white p-4 sticky top-0 flex items-center justify-between lg:hidden">
         <h1 className="font-bold tracking-wide text-2xl ">
           <NavLink to="/dashboard">Dashboard</NavLink>
         </h1>

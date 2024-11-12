@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 //icon
 import { RiDeleteBinLine } from "react-icons/ri";
 //component
@@ -29,19 +30,55 @@ const DashCategory = () => {
     fetchData();
   }, []);
 
-  const deleteCatagory = async (id) => {
+  const deleteCatagory = async (id,name) => {
+    
     try {
-      const res = await axios.delete(
-        "http://localhost:8081/category/delete/" + id
-      );
-      setData((data) => data.filter((item) => item.category_id !== id));
+      const result = await Swal.fire({
+        title: `Do you want to delete ${name} category?`,
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Delete",
+        confirmButtonColor: "#dc2626", // red-600
+        cancelButtonColor: "#4b5563", // gray-600
+      });
+      if(result.isConfirmed){
+        try {
+          await axios.delete(
+            "http://localhost:8081/category/delete/" + id
+          );
+          await Swal.fire({
+            title: "Deleted!",
+            text: `${name} has been deleted.`,
+            icon: "success",
+            timer: 1500
+          });
+          setData((data) => data.filter((item) => item.category_id !== id));
+        } catch (error) {
+          console.log("Delete error:", error);
+          await Swal.fire({
+            title: "Error!",
+            text: "Failed to delete the product. Please try again.",
+            icon: "error"
+          });
+        }
+
+      }
+
     } catch (error) {
-      console.log(error);
+      console.log("Sweet Alert error:", error);
+      await Swal.fire({
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+        icon: "error"
+      });
     }
   };
+
+  
   if (loading) return <Loading />;
   return (
-    <main className="lg:grid lg:grid-cols-[250px_1fr] fixed w-full h-screen">
+    <main className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Dashnav className="bg-white h-full" />
       <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
         <DashTitleHead
@@ -76,7 +113,7 @@ const DashCategory = () => {
 
                         <button className="p-1 flex cursor-pointer items-center hover:bg-red-600 transition bg-red-500 rounded text-white text-xl">
                           <RiDeleteBinLine
-                            onClick={() => deleteCatagory(item.category_id)}
+                            onClick={() => deleteCatagory(item.category_id,item.category_name)}
                           />
                         </button>
                       </td>

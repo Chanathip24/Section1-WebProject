@@ -32,7 +32,7 @@ const DashEditCategory = () => {
         }
     }
   return (
-    <main className="lg:grid lg:grid-cols-[250px_1fr] fixed w-full h-screen">
+    <main className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Dashnav className="bg-white h-full" />
       <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
         <DashEditHead title={"Edit Category"} url={"/dashboard/category"} />

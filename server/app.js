@@ -8,6 +8,7 @@ const path = require('path')
 const userRoutes = require('./routes/userRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
 const categoryRoutes = require("./routes/categoryRoutes.js")
+const qrRoutes = require("./routes/qrRoutes.js")
 //PORT
 const PORT = process.env.PORT || 8081
 
@@ -26,6 +27,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/user",userRoutes);
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes)
+app.use('/qrcode',qrRoutes)
 
 app.listen(PORT , (err)=>{
     if(err) throw err;

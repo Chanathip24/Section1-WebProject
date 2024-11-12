@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import {
-  LayoutDashboard,
-  ShoppingBag,
   Users,
-  Settings,
   ChevronDown,
-  Menu,
-  X,
-  Boxes,
-  TrendingUp,
   DollarSign,
   ShoppingCart,
   Package
@@ -44,7 +37,7 @@ const Dashboard = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <div className="lg:grid lg:grid-cols-[250px_1fr] md:flex-row min-h-screen bg-gray-50">
+    <div className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Dashnav/>
       
       <main className=" p-6">

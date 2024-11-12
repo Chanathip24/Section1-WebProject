@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import Swal from "sweetalert2";
 //component
 import Dashnav from "./components/Dashnav";
 //icon
@@ -27,14 +27,46 @@ const DashUsers = () => {
     }
   };
 
-  //delete
+  //delete user using id
   const deleteUser = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:8081/user/delete/${id}`);
-      setData((prevUser) => prevUser.filter((user) => user.id !== id));
+      const result = await Swal.fire({
+        title: `Do you want to delete user id ${id}?`,
+        text: "",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Delete",
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#4b5563"
+      })
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:8081/user/delete/${id}`);
+          await Swal.fire({
+            title: "Deleted!",
+            text: `User id ${id} has been deleted.`,
+            icon: "success",
+            timer: 1500
+          })
+          setData((prevUser) => prevUser.filter((user) => user.id !== id));
+        } catch (error) {
+          await Swal.fire({
+            title: "Delete Failed",
+            text: `Failed to delete user. Please try again.`,
+            icon: "error",
+            timer: 1500
+          })
+        }
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Sweet Alert error:", error);
+      await Swal.fire({
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+        icon: "error"
+      });
     }
+
   };
 
   //fetchdata
@@ -48,7 +80,7 @@ const DashUsers = () => {
   }
 
   return (
-    <main className="lg:grid lg:grid-cols-[250px_1fr] fixed w-full h-screen">
+    <main className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Dashnav className="bg-white h-full" />
       <section className="overflow-y-scroll  min-h-full p-5 bg-[#FAF9F6]">
         <DashTitleHead
@@ -99,7 +131,7 @@ const DashUsers = () => {
                 })
               ) : (
                 <tr>
-                  <td>No data</td>
+                  <Loading/>
                 </tr>
               )}
             </tbody>

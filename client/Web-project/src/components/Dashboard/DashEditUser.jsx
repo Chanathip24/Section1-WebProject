@@ -71,7 +71,7 @@ const DashEditUser = () => {
   };
 
   return (
-    <section className="lg:grid lg:grid-cols-[250px_1fr] fixed w-full h-screen">
+    <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Toaster />
       <Dashnav className="bg-white h-full" />
       <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
