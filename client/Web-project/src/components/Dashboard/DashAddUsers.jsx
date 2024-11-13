@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 //component
 import Dashnav from "./components/Dashnav";
-import { MdKeyboardArrowLeft } from "react-icons/md";
-import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import DashEditHead from "./components/DashEditHead";
 const DashAddUsers = () => {
   //checkclick
@@ -40,7 +38,7 @@ const DashAddUsers = () => {
     //logic insert data to db
     try {
       setClick(true);
-      const res = await axios.post("http://localhost:8081/user/registeradmin", user);
+      const res = await axios.post(`${import.meta.env.VITE_API_ROUTE}/user/registeradmin`, user);
       toast.success("Create user successfully")
       //redirect
       setTimeout(() => {

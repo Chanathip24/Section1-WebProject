@@ -20,7 +20,7 @@ const DashPDcard = ({ data, onDelete }) => {
     if (result.isConfirmed) {
       try {
         await axios.delete(
-          `http://localhost:8081/product/delete/${data.product_id}`
+          `${import.meta.env.VITE_API_ROUTE}/product/delete/${data.product_id}`
         );
         
         await Swal.fire({

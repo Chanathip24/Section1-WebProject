@@ -4,32 +4,24 @@ import Dashcate from "./components/Dashcate";
 import DashPDcard from "./components/DashPDcard";
 import DashTitleHead from "./components/DashTitleHead";
 import axios from "axios";
+import useFetchData from "../../hooks/useFetchData";
+import Loading from "../Initial/Loading";
 
 const DashProduct = () => {
   //data
-  const [data,setData] = useState([])
-  //effect
-  useEffect(()=>{
-    const fetchProduct = async () =>{
-      try {
-        const res = await axios.get("http://localhost:8081/product/getall")
-        setData(res.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchProduct()
-  },[])
+
+  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/getall`)
 
   //delete
   const deleteProduct = (id) => {
     setData((prevProducts) => prevProducts.filter(product => product.product_id !== id));
   };
+  if(loading) return <Loading/>
   return (
     <>
       <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
         <Dashnav className="bg-white h-full" />
-        <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
+        <div className="overflow-y-scroll p-5 bg-[#FAF9F6]">
           <DashTitleHead title={"All Products"} total={data.length} url={"/dashboard/products/addproducts"} />
           
           <Dashcate />
@@ -40,7 +32,7 @@ const DashProduct = () => {
 
             
           </div>
-        </section>
+        </div>
       </section>
     </>
   );

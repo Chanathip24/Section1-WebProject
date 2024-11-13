@@ -4,6 +4,7 @@ import Dashnav from "./components/Dashnav";
 import DashEditHead from "./components/DashEditHead";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import useFetchData from "../../hooks/useFetchData";
 const DashAddProduct = () => {
   const navigate = useNavigate()
   const inputstyle =
@@ -21,19 +22,8 @@ const DashAddProduct = () => {
   //preview
   const [previews, setPreviews] = useState([]);
   //category data
-  const [category, setCategory] = useState([]);
+  const {data:category,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/category/getall`)
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const res = await axios.get("http://localhost:8081/category/getall");
-        setCategory(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCategory();
-  }, []);
 
   //handleFormchange for text
   const handleformChange = (e) => {
@@ -108,7 +98,7 @@ const DashAddProduct = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8081/product/create",
+        `${import.meta.env.VITE_API_ROUTE}/product/create`,
         formData
       );
       toast.success("Product created successfully!");

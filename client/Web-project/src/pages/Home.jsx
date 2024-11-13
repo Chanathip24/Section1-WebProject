@@ -18,7 +18,7 @@ import Loading from "../components/Initial/Loading";
 import SwiperCarousel from "../components/Initial/SwiperCarousel";
 
 const Home = () => {
-  const {data,loading,error} = useFetchData("http://localhost:8081/product/getall")
+  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/getall`)
   //loading
   if (loading) return <Loading />;
   if(error) return <h1>Error isus  </h1>

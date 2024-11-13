@@ -5,7 +5,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 const DashEditHead = ({ title, url }) => {
   return (
     <>
-      <div className="flex justify-between items-center">
+      <section className="flex  md:flex-row justify-between md:items-center">
         <div>
           <h1 className="text-xl font-bold">{title}</h1>
         </div>
@@ -19,7 +19,7 @@ const DashEditHead = ({ title, url }) => {
             </button>
           </Link>
         </div>
-      </div>
+      </section>
       <hr className="my-5" />
     </>
   );

@@ -26,6 +26,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Failed from "./pages/Failed";
 import Success from "./pages/Success";
+import DashOrder from "./components/Dashboard/DashOrder";
 function App() {
   return (
     <>
@@ -104,6 +105,14 @@ function App() {
             element={
               <ProtectedRoute role="ADMIN">
                 <DashEditUser />
+              </ProtectedRoute>
+            }
+          />
+                    <Route
+            path="/dashboard/orders"
+            element={
+              <ProtectedRoute role="ADMIN">
+                <DashOrder/>
               </ProtectedRoute>
             }
           />

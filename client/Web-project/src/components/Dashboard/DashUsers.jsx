@@ -8,24 +8,13 @@ import Dashnav from "./components/Dashnav";
 import { RiDeleteBinLine } from "react-icons/ri";
 import Loading from "../Initial/Loading";
 import DashTitleHead from "./components/DashTitleHead";
+import useFetchData from "../../hooks/useFetchData";
 const DashUsers = () => {
   axios.defaults.withCredentials = true;
 
-  //data
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  //fetch data 
+  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/user/getall`)
 
-  //fetch all users data
-  const fetchdata = async () => {
-    try {
-      const res = await axios.get("http://localhost:8081/user/getall");
-      setData(res.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   //delete user using id
   const deleteUser = async (id) => {
@@ -41,7 +30,7 @@ const DashUsers = () => {
       })
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:8081/user/delete/${id}`);
+          await axios.delete(`${import.meta.env.VITE_API_ROUTE}/user/delete/${id}`);
           await Swal.fire({
             title: "Deleted!",
             text: `User id ${id} has been deleted.`,
@@ -50,6 +39,7 @@ const DashUsers = () => {
           })
           setData((prevUser) => prevUser.filter((user) => user.id !== id));
         } catch (error) {
+          console.log(error)
           await Swal.fire({
             title: "Delete Failed",
             text: `Failed to delete user. Please try again.`,
@@ -69,10 +59,6 @@ const DashUsers = () => {
 
   };
 
-  //fetchdata
-  useEffect(() => {
-    fetchdata();
-  }, []);
 
   //load data
   if (loading) {
@@ -102,6 +88,7 @@ const DashUsers = () => {
               </tr>
             </thead>
             <tbody>
+              
               {Array.isArray(data) && data && data.length > 0 ? (
                 data.map((data, key) => {
                   return (

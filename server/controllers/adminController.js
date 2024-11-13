@@ -19,7 +19,7 @@ exports.adminRegister = (req, res) => {
       [email, fname, lname, result, address, phone, role],
       (err) => {
         if (err) return res.status(500).json(err);
-        res.status(200).json("Register success");
+        return res.status(200).json("Register success");
       }
     );
   });
@@ -27,7 +27,6 @@ exports.adminRegister = (req, res) => {
 
 exports.getAlluser = (req, res) => {
   //check admin
-
   if (req.user.role !== "ADMIN") return res.status(403).json("INVALID TOKEN");
   const query =
     "SELECT id,email,fname,lname,role,address,phone,created_at,updated_at from users";
@@ -122,7 +121,7 @@ exports.adminManageUser = (req, res) => {
     const updateQuery = `UPDATE users SET ${updateQueryParts.join(", ")} WHERE id = ?`;
     db.query(updateQuery, [...updates,userId], (err) => {
       if (err) return res.status(500).json(err);
-      res.status(200).json("User updated successfully");
+      return res.status(200).json("User updated successfully");
     });
   }
 };

@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 //component
 import Dashnav from "./components/Dashnav";
 import DashEditHead from "./components/DashEditHead";
+import useFetchData from "../../hooks/useFetchData";
 const DashEditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -23,21 +24,16 @@ const DashEditProduct = () => {
   //preview
   const [previews, setPreviews] = useState([]);
   //category data
-  const [category, setCategory] = useState([]);
+  //fetch category
+  const {data : category , loading : categoryLoading,error : categoryErr} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/category/getall`)
+  
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const res = await axios.get("http://localhost:8081/category/getall");
-        setCategory(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+
     const fetchProductbyid = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8081/product/product/" + id
+          `${import.meta.env.VITE_API_ROUTE}/product/product/` + id
         );
         setProduct(res.data);
       } catch (error) {
@@ -45,7 +41,6 @@ const DashEditProduct = () => {
       }
     };
     fetchProductbyid();
-    fetchCategory();
   }, []);
 
   //handleFormchange for text

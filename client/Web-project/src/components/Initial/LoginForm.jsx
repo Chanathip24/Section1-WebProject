@@ -65,7 +65,7 @@ const LoginForm = () => {
 
     setIsLoading(true);
     try {
-      const res = await axios.post("http://localhost:8081/user/login", user);
+      const res = await axios.post(`${import.meta.env.VITE_API_ROUTE}/user/login`, user);
       
       if (res.status === 200) {
         toast.success("Login successful!");

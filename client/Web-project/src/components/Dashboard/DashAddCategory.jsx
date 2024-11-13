@@ -22,7 +22,7 @@ const DashAddCategory = () => {
         
         if(data.category_name === "" || !data.category_name) return toast.error("Category name is empty.")
         try {
-            const res = await axios.post("http://localhost:8081/category/create",data)
+            const res = await axios.post(`${import.meta.env.VITE_API_ROUTE}/category/create`,data)
             navigate('/dashboard/category')
         } catch (error) {
             toast.error("This name is already created.")

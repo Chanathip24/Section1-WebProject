@@ -26,7 +26,7 @@ const Dashnav = () => {
 `;
   //logout
   const logout = async () => {
-    const res = await axios.get("http://localhost:8081/user/logout");
+    const res = await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/logout`);
     navigate("/");
   };
 

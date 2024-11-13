@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const DashTitleHead = ({ title, total, url }) => {
   return (
     <>
-      <div className="flex justify-between items-center">
+      <section className="flex flex-col md:flex-row justify-between md:items-center">
         <div>
           <h1 className="text-xl font-bold">{title}</h1>
           <p className="text-gray-400">{total} items found</p>
@@ -20,7 +20,7 @@ const DashTitleHead = ({ title, total, url }) => {
             </button>
           </Link>
         </div>
-      </div>
+      </section>
       <hr className="my-5" />
     </>
   );

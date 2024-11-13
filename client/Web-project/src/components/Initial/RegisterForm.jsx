@@ -86,7 +86,7 @@ const RegisterForm = () => {
 
     setIsLoading(true);
     try {
-      const res = await axios.post("http://localhost:8081/user/register", data);
+      const res = await axios.post(`${import.meta.env.VITE_API_ROUTE}/user/register`, data);
       toast.success(res.data);
       setTimeout(() => {
         navigate("/");

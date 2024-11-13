@@ -1,37 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+//customhook
+import useFetchData from "../../hooks/useFetchData";
 //icon
 import { RiDeleteBinLine } from "react-icons/ri";
 //component
 import Dashnav from "./components/Dashnav";
 import DashTitleHead from "./components/DashTitleHead";
 import Loading from "../Initial/Loading";
+
 const DashCategory = () => {
-  //loading status
-  const [loading, setLoading] = useState(false);
+
   //category data
-  const [data, setData] = useState([]);
-  //fetch
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get("http://localhost:8081/category/getall");
-        setData(res.data);
-      } catch (error) {
-        setLoading(true);
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/category/getall`)
+ 
+
 
   const deleteCatagory = async (id,name) => {
-    
     try {
       const result = await Swal.fire({
         title: `Do you want to delete ${name} category?`,
@@ -45,7 +32,7 @@ const DashCategory = () => {
       if(result.isConfirmed){
         try {
           await axios.delete(
-            "http://localhost:8081/category/delete/" + id
+            `${import.meta.env.VITE_API_ROUTE}/category/delete/` + id
           );
           await Swal.fire({
             title: "Deleted!",

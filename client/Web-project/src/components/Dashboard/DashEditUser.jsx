@@ -4,16 +4,23 @@ import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+//hook
+import useFetchData from "../../hooks/useFetchData";
+
 //component
 import Dashnav from "./components/Dashnav";
 import DashEditHead from "./components/DashEditHead";
+
+import Loading from "../Initial/Loading";
+
 const DashEditUser = () => {
   //navigation
   const navigate = useNavigate();
   //user id from param
   const { id } = useParams();
-  //before data
-  const [data, setData] = useState(null);
+  //user data before 
+  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/user/getuser/${id}`)
+
   //user
   const [user, setUser] = useState({
     fname: "",
@@ -26,24 +33,14 @@ const DashEditUser = () => {
   });
   //checkclick
   const [isClick, setClick] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("http://localhost:8081/user/getuser/" + id);
-        setData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+
   //handleupdate
   const handleUpdate = async (e) => {
     e.preventDefault();
     if(isClick) return toast.error("You're click too fast")
     try {
       const res = await axios.put(
-        `http://localhost:8081/user/updateuser/${id}`,
+        `${import.meta.env.VITE_API_ROUTE}/user/updateuser/${id}`,
         user
       );
       setClick(true)
@@ -54,6 +51,7 @@ const DashEditUser = () => {
     } catch (error) {
       setClick(true)
       console.log(error);
+      toast.error(`${error.response.data}`)
       setTimeout(() => {
         setClick(false)
       }, 2000);
@@ -65,11 +63,12 @@ const DashEditUser = () => {
   const inputstyle =
     "p-3 border focus:outline-none border-gray-400 rounded-lg resize-none";
 
-  //handlechange
+  //handlechange on form
   const handlechange = (e) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  if(loading) return <Loading/>
   return (
     <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Toaster />

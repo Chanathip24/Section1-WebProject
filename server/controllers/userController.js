@@ -2,6 +2,8 @@ const db = require("../config/db.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const JWT_SECRET = process.env.JWT_SECRET || "catcat"
+
 exports.checkLogin = (req, res) => {
   return res.json({ role: req.user.role, email: req.user.email });
 };
@@ -28,15 +30,16 @@ exports.userLogin = (req, res) => {
       if (err) return res.status(500).json(err);
       if (!result) return res.status(400).json("Wrong password");
 
-      const token = jwt.sign({ email: user.email, role: user.role }, "catcat", {
-        expiresIn: "1h",
+      const token = jwt.sign({id:user.id, email: user.email, role: user.role }, JWT_SECRET, {
+        expiresIn: "1d",
+        algorithm: "HS256"
       });
       res.cookie("token", token, {
         secure: false,
         httpOnly: true,
         maxAge: 1000*60*60,
       });
-      res.status(200).json("success");
+      return res.status(200).json("success");
     });
   });
 };
@@ -55,12 +58,13 @@ exports.userRegister = (req, res) => {
     db.query(
       query,
       [email, fname, lname, result, address, phone, role],
-      (err) => {
+      (err,result) => {
         if (err) return res.status(500).json(err);
 
         //if pass sign jwt
-        const token = jwt.sign({ email: email, role: role }, "catcat", {
-          expiresIn: "1h",
+        const token = jwt.sign({id:result.insertId , email: email, role: role }, JWT_SECRET, {
+          expiresIn: "1d",
+          algorithm: "HS256"
         });
         //cookie store jwt token
         res.cookie("token", token, {
@@ -69,7 +73,7 @@ exports.userRegister = (req, res) => {
           maxAge: 1000*60*60, //1 hour
         });
 
-        res.status(200).json("Register success");
+        return res.status(200).json("Register success");
       }
     );
   });

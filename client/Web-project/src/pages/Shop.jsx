@@ -14,7 +14,7 @@ import Loading from "../components/Initial/Loading";
 
 const Shop = () => {
   //all product fetching
-  const {data,loading,error} = useFetchData("http://localhost:8081/product/getall")
+  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/getall`)
 
   if(loading) return <Loading/>
   return (
