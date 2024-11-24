@@ -7,7 +7,7 @@ const PromptPayQR = ({ onBack, total, items }) => {
   const navigate = useNavigate()
   //data to create QR
   const [data,setData] = useState({
-    id : "0626063049",
+    id : import.meta.env.VITE_PROMPTPAY_ID,
     amount : total
   })
   //base64 qrcode

@@ -18,7 +18,7 @@ const ProductDetail = () => {
     data: product,
     loading,
     error,
-  } = useFetchData("http://localhost:8081/product/product/" + id);
+  } = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/product/` + id);
 
   if (loading) return <Loading />;
 
@@ -68,7 +68,7 @@ const ProductDetail = () => {
           <div className="h-max md:w-1/2 flex-col items-center justify-center">
             {Array.isArray(product.images) && product.images.length > 0 && (
               <img
-                src={`http://localhost:8081/${product.images[0]}`}
+                src={`${import.meta.env.VITE_API_ROUTE}/${product.images[0]}`}
                 onClick={() => openModal(0)}
                 className="rounded-xl border w-full  h-[50%] bg-gray-200 text-gray-500 text-2xl flex justify-center object-cover items-center cursor-pointer hover:opacity-90 transition-opacity"
               />
@@ -80,7 +80,7 @@ const ProductDetail = () => {
                 product.images.map((image, index) => (
                   <img
                     key={index}
-                    src={`http://localhost:8081/${image}`}
+                    src={`${import.meta.env.VITE_API_ROUTE}/${image}`}
                     alt="Beverage Image"
                     onClick={() => openModal(index)}
                     className="rounded object-cover w-[120px] h-[100px] border bg-blue-200 text-gray-500 text-2xl flex justify-center items-center cursor-pointer hover:opacity-90 transition-opacity"

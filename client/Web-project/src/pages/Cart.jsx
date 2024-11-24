@@ -86,7 +86,7 @@ const Cart = () => {
                             <td className="py-4 px-4">
                               <div className="flex gap-4 items-center">
                                 <img
-                                  src={`http://localhost:8081/${item.images[0]}`}
+                                  src={`${import.meta.env.VITE_API_ROUTE}/${item.images[0]}`}
                                   alt={item.product_name}
                                   className="border w-20 h-20 object-cover rounded-lg bg-zinc-200"
                                 />

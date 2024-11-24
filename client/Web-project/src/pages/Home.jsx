@@ -22,7 +22,7 @@ const Home = () => {
   const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/getall`)
   //loading
   if (loading) return <Loading />;
-  if(error) return <h1>Please refresh this page again</h1>
+  if(error) return <h1>Server error</h1>
 
   return (
     <>

@@ -35,14 +35,14 @@ const Search = () => {
     data: productData,
     loading: productLoading,
     error: productError,
-  } = useFetchData("http://localhost:8081/product/getall");
+  } = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/getall`);
 
   //fetchCategory
   const {
     data: categoryData,
     loading: categoryLoading,
     error: categoryError,
-  } = useFetchData("http://localhost:8081/category/getall");
+  } = useFetchData(`${import.meta.env.VITE_API_ROUTE}/category/getall`);
   const mainCategory =
     categoryData && Array.isArray(categoryData)
       ? categoryData.slice(0, categoryData.length / 2)

@@ -35,7 +35,7 @@ const ImageModal = ({
           </button>
   
           <img
-            src={`http://localhost:8081/${images[currentIndex]}`}
+            src={`${import.meta.env.VITE_API_ROUTE}/${images[currentIndex]}`}
             alt="Product"
             className="max-h-[100vh] max-w-[80vw] object-contain"
           />

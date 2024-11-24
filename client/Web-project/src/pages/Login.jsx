@@ -16,7 +16,7 @@ const Login = () => {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("http://localhost:8081/user/checklogin");
+        const res = await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/checklogin`);
         setLogin(true);
       } catch (error) {
         setLogin(false);

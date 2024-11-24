@@ -8,7 +8,7 @@ const Video = () => {
       <section className=" mb-16 flex justify-center items-center">
         <figure className="flex flex-col md:flex-row items-center gap-5 md:gap-10 w-3/4">
           {/* Image placeholder */}
-          <div className=" bg-gray-300 w-full md:w-1/2  h-64 flex justify-center items-center">
+          <div className="  w-full md:w-1/2  h-64 flex justify-center items-center">
             <img
               src="https://www.nestleprofessional.us/sites/default/files/styles/np_article_big/public/2024-03/17-Easy-deas-for-Promoting-Beverages-Nestle-Professional-Foodservice-1440x810.jpg?h=2d44e782&itok=_dmQDg4l"
               className="rounded-lg"

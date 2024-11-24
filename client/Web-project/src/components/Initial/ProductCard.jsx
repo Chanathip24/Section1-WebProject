@@ -42,10 +42,10 @@ const Items = ({ data }) => {
             className="rounded-xl w-full h-full object-cover border  hover:cursor-pointer"
             src={
               data
-                ? `http://localhost:8081/${data.images[0]}`
+                ? `${import.meta.env.VITE_API_ROUTE}/${data.images[0]}`
                 : "https://s3.amazonaws.com/www-inside-design/uploads/2018/12/The-product-of-you-810x810.png"
             }
-            alt=""
+            alt={`Image of product name call ${data.product_name}`}
             width={400}
           />
         </NavLink>

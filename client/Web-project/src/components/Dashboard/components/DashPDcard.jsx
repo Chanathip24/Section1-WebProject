@@ -58,7 +58,7 @@ const DashPDcard = ({ data, onDelete }) => {
         <Link to={`/product/${data.product_id}`}>
           <div className="relative w-full h-48">
             <img
-              src={data.images?.[0] ? `http://localhost:8081/${data.images[0]}` : defaultImage}
+              src={data.images?.[0] ? `${import.meta.env.VITE_API_ROUTE}/${data.images[0]}` : defaultImage}
               className="rounded-2xl w-full h-full object-cover"
               alt={data.product_name || "Product image"}
             />

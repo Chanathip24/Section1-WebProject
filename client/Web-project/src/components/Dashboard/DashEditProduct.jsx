@@ -98,7 +98,7 @@ const DashEditProduct = () => {
     
     try {
       const res = await axios.put(
-        "http://localhost:8081/product/edit/" + id,
+        `${import.meta.env.VITE_API_ROUTE}/product/edit/` + id,
         formData
       );
       toast.success("Product updated successfully!");
