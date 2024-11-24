@@ -1,20 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-
+import ReCAPTCHA from "react-google-recaptcha";
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
-
-  // Base input style remains the same
-  const getInputStyle = (fieldName) => {
-    return `p-2 focus:outline-none text-[16px] rounded-md border ${
-      errors[fieldName] ? 'border-red-500' : 'border-gray-900'
-    } resize-none`;
-  };
-
   //user data
   const [data, setData] = useState({
     fname: "",
@@ -24,6 +16,22 @@ const RegisterForm = () => {
     email: "",
     password: "",
   });
+  //recaptCha kub
+  const recaptchaRef = useRef(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const SITE_KEY = "6Lefv4gqAAAAALAttneODeYFTvcdz8No5Kh5OxYB";
+  const handleRecaptchaChange = async (token) => {
+    setIsVerified(!!token);
+    if (token) {
+      setData((prev) => ({ ...prev, recaptchaToken: token }));
+    }
+  };
+  // Base input style remains the same
+  const getInputStyle = (fieldName) => {
+    return `p-2 focus:outline-none text-[16px] rounded-md border ${
+      errors[fieldName] ? "border-red-500" : "border-gray-900"
+    } resize-none`;
+  };
 
   //validate form
   const validateForm = () => {
@@ -83,10 +91,17 @@ const RegisterForm = () => {
     if (!validateForm()) {
       return;
     }
-
+    //check Recaptcha
+    if (!isVerified) {
+      toast.error('Please verify that you are human!');
+      return;
+    }
     setIsLoading(true);
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_ROUTE}/user/register`, data);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_ROUTE}/user/register`,
+        data
+      );
       toast.success(res.data);
       setTimeout(() => {
         navigate("/");
@@ -152,7 +167,9 @@ const RegisterForm = () => {
           className={getInputStyle("address")}
         ></textarea>
         {errors.address && (
-          <span className="text-red-500 text-sm mt-[-8px]">{errors.address}</span>
+          <span className="text-red-500 text-sm mt-[-8px]">
+            {errors.address}
+          </span>
         )}
 
         <label htmlFor="email">Email</label>
@@ -179,9 +196,11 @@ const RegisterForm = () => {
           required
         />
         {errors.password && (
-          <span className="text-red-500 text-sm mt-[-8px]">{errors.password}</span>
+          <span className="text-red-500 text-sm mt-[-8px]">
+            {errors.password}
+          </span>
         )}
-
+        <ReCAPTCHA onChange={handleRecaptchaChange} sitekey={SITE_KEY} ref={recaptchaRef} />
         <p className="underline text-gray-600 font-thin">FORGOT PASSWORD</p>
         <button
           onClick={handleSubmit}

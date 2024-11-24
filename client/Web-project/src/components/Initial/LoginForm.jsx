@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-
+import ReCAPCHA from "react-google-recaptcha";
 const LoginForm = () => {
   axios.defaults.withCredentials = true;
+
+  //recaptcha
+  const recaptchaRef = useRef(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const SITE_KEY = "6Lefv4gqAAAAALAttneODeYFTvcdz8No5Kh5OxYB"; //recaptCHA SITE_KEY
   
+  const handleRecaptchaChange = async (token) => {
+    
+    setIsVerified(!!token);
+    const newtoken = await recaptchaRef.current.getValue()
+    setUser((prev)=>({...prev,recaptchaToken : newtoken}))
+  };
+
   //navigate
   const navigate = useNavigate();
-  
+
   //loading state
   const [isLoading, setIsLoading] = useState(false);
-  
+
   //errors state
   const [errors, setErrors] = useState({});
 
@@ -23,7 +35,7 @@ const LoginForm = () => {
 
   const getInputStyle = (fieldName) => {
     return `p-2 focus:outline-none text-[16px] rounded-md border ${
-      errors[fieldName] ? 'border-red-500' : 'border-gray-900'
+      errors[fieldName] ? "border-red-500" : "border-gray-900"
     }`;
   };
 
@@ -62,11 +74,19 @@ const LoginForm = () => {
     if (!validateForm()) {
       return;
     }
+    if (!isVerified) {
+      toast.error('Please verify that you are human!');
+      return;
+    }
 
     setIsLoading(true);
+
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_ROUTE}/user/login`, user);
-      
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_ROUTE}/user/login`,
+        user
+      );
+
       if (res.status === 200) {
         toast.success("Login successful!");
         return navigate("/");
@@ -105,9 +125,16 @@ const LoginForm = () => {
           onChange={handlechange}
         />
         {errors.password && (
-          <span className="text-red-500 text-sm mt-[-8px]">{errors.password}</span>
+          <span className="text-red-500 text-sm mt-[-8px]">
+            {errors.password}
+          </span>
         )}
-
+        {/* RecaptCha */}
+        <ReCAPCHA
+          ref={recaptchaRef}
+          onChange={handleRecaptchaChange}
+          sitekey={SITE_KEY}
+        />
         <p className="underline text-gray-600 font-thin">FORGOT PASSWORD</p>
         <button
           onClick={onsubmit}

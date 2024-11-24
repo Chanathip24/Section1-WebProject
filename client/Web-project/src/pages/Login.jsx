@@ -48,7 +48,7 @@ const Login = () => {
       <main>
         <section className="mx-auto p-10 md:p-0 my-5 gap-8 lg:gap-0 lg:my-16 container grid grid-cols-1  md:grid-cols-2 place-items-center">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiyKWu-X7xogwGwWhjFVGV_8dpm0Z6Iu80qg&s"
+            src="https://resourceboy.com/wp-content/uploads/2023/06/front-view-of-beverage-bottle-mockup.jpg"
             alt="A picture of beverages"
             className="order-2 lg:-order-1"
           />

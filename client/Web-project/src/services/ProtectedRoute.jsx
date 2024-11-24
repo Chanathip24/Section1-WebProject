@@ -12,7 +12,7 @@ const ProtectedRoute = ({ role, children }) => {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("http://localhost:8081/user/checklogin");
+        const res = await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/checklogin`);
       
         if (res.status === 200 && res.data.role === role ) {
           setPass(true); 

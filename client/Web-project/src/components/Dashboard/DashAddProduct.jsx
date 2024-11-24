@@ -97,7 +97,7 @@ const DashAddProduct = () => {
     });
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_ROUTE}/product/create`,
         formData
       );

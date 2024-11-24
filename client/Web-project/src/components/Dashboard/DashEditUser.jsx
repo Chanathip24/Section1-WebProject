@@ -18,8 +18,10 @@ const DashEditUser = () => {
   const navigate = useNavigate();
   //user id from param
   const { id } = useParams();
-  //user data before 
-  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/user/getuser/${id}`)
+  //user data before
+  const { data, loading, error } = useFetchData(
+    `${import.meta.env.VITE_API_ROUTE}/user/getuser/${id}`
+  );
 
   //user
   const [user, setUser] = useState({
@@ -34,28 +36,78 @@ const DashEditUser = () => {
   //checkclick
   const [isClick, setClick] = useState(false);
 
+  // Add errors state
+  const [errors, setErrors] = useState({
+    fname: "",
+    lname: "",
+    phone: "",
+    email: "",
+    password: "",
+    address: "",
+  });
+
+  const validateError = (name, value) => {
+    switch (name) {
+      case "fname":
+      case "lname":
+        return value.length < 2 ? "Must be at least 2 characters" : "";
+      case "phone":
+        return !/^\+?[\d\s-]{10,}$/.test(value)
+          ? "Please enter a valid phone number"
+          : "";
+      case "email":
+        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? "Please enter a valid email"
+          : "";
+      case "password":
+        return value.length < 6 ? "Password must be at least 6 characters" : "";
+      default:
+        return "";
+    }
+  };
+
   //handleupdate
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if(isClick) return toast.error("You're click too fast")
+    if (isClick) return toast.error("You're click too fast");
+
+    //before update user validation first
+    const newError = {};
+    let isError = false;
+    Object.keys(user).forEach((key) => {
+      //ไม่ต้องเช็คทุกแถวเพราะไม่ได้อัพเดททุกแถว
+      if(user[key] === ""){
+        return;
+      }
+      const error = validateError(key, user[key]);
+      if (error) {
+        newError[key] = error;
+        isError = true;
+      }
+    });
+    if (isError) {
+      toast.error("Please fix all errors.");
+      setErrors(newError);
+      return;
+    }
     try {
       const res = await axios.put(
         `${import.meta.env.VITE_API_ROUTE}/user/updateuser/${id}`,
         user
       );
-      setClick(true)
-      toast.success(res.data)
+      setClick(true);
+      toast.success(res.data);
       setTimeout(() => {
-        navigate('/dashboard/users')
+        navigate("/dashboard/users");
       }, 1500);
+
     } catch (error) {
-      setClick(true)
+      setClick(true);
       console.log(error);
-      toast.error(`${error.response.data}`)
+      toast.error(`Something error please read the log or contact administrator.`);
       setTimeout(() => {
-        setClick(false)
+        setClick(false);
       }, 2000);
-      
     }
   };
 
@@ -66,9 +118,13 @@ const DashEditUser = () => {
   //handlechange on form
   const handlechange = (e) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+    //error validate kub
+    const error = validateError(e.target.name, e.target.value);
+    setErrors((prev) => ({ ...prev, [e.target.name]: error }));
   };
 
-  if(loading) return <Loading/>
+  if (loading) return <Loading />;
   return (
     <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Toaster />
@@ -84,8 +140,11 @@ const DashEditUser = () => {
             type="text"
             placeholder="First name"
             name="fname"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.fname ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.fname}</span>
 
           <label>Last name : {data ? data.lname : ""}</label>
           <input
@@ -93,8 +152,11 @@ const DashEditUser = () => {
             type="text"
             placeholder="Last name"
             name="lname"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.lname ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.lname}</span>
 
           <label>Phone number : {data ? data.phone : ""}</label>
           <input
@@ -102,8 +164,11 @@ const DashEditUser = () => {
             type="text"
             placeholder="Phone number"
             name="phone"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.phone ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.phone}</span>
 
           <label>Email {data ? data.email : ""}</label>
           <input
@@ -111,8 +176,11 @@ const DashEditUser = () => {
             type="email"
             placeholder="Email"
             name="email"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.email ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.email}</span>
 
           <label>Password</label>
           <input
@@ -120,8 +188,11 @@ const DashEditUser = () => {
             type="password"
             placeholder="Password"
             name="password"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.password ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.password}</span>
 
           <label>Role : {data ? data.role : ""}</label>
           <select

@@ -3,74 +3,11 @@ import Announcement from "../components/Initial/Announcement";
 import Navbar from "../components/Initial/Navbar";
 import Footer from "../components/Initial/Footer";
 import { Link, useParams } from "react-router-dom";
-import { X } from "lucide-react";
+
 import Loading from "../components/Initial/Loading";
 import useFetchData from "../hooks/useFetchData";
 import toast from "react-hot-toast";
-
-
-const ImageModal = ({
-  isOpen,
-  onClose,
-  images,
-  currentIndex,
-  setCurrentIndex,
-}) => {
-  if (!isOpen) return null;
-
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
-      <div className="relative w-full h-full flex items-center justify-center">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-white hover:text-gray-300"
-        >
-          <X size={24} />
-        </button>
-
-        <button
-          onClick={prevImage}
-          className="absolute left-4 text-white hover:text-gray-300 text-4xl"
-        >
-          ‹
-        </button>
-
-        <img
-          src={`http://localhost:8081/${images[currentIndex]}`}
-          alt="Product"
-          className="max-h-[100vh] max-w-[80vw] object-contain"
-        />
-
-        <button
-          onClick={nextImage}
-          className="absolute right-4 text-white hover:text-gray-300 text-4xl"
-        >
-          ›
-        </button>
-
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full ${
-                index === currentIndex ? "bg-white" : "bg-gray-500"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+import ImageModal from "../components/Initial/ImageModal";
 
 const ProductDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -93,32 +30,37 @@ const ProductDetail = () => {
   const addToCart = () => {
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
-    
     const existingProductIndex = cartItems.findIndex(
       (item) => item.product_name === product.product_name
     );
 
     if (existingProductIndex !== -1) {
-      
       cartItems[existingProductIndex].quantity += 1;
-      
     } else {
-      
       const newProduct = { ...product, quantity: 1 };
       cartItems.push(newProduct);
-      
     }
-    toast.success("Add product to your cart.")
+    toast.success("Add product to your cart.");
     //Update
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
+
   return (
     <>
       <Announcement />
       <Navbar />
       <main className="container mx-auto">
         <h1 className="my-4 md:mx-0 font-semibold">
-          <span className="font-normal"><Link className="underline-animation" to='/'>Home</Link> &gt; <Link className="underline-animation" to="/shop">shop</Link> &gt; </span>
+          <span className="font-normal">
+            <Link className="underline-animation" to="/">
+              Home
+            </Link>{" "}
+            &gt;{" "}
+            <Link className="underline-animation" to="/shop">
+              shop
+            </Link>{" "}
+            &gt;{" "}
+          </span>
           {product.product_name}
         </h1>
 
@@ -139,6 +81,7 @@ const ProductDetail = () => {
                   <img
                     key={index}
                     src={`http://localhost:8081/${image}`}
+                    alt="Beverage Image"
                     onClick={() => openModal(index)}
                     className="rounded object-cover w-[120px] h-[100px] border bg-blue-200 text-gray-500 text-2xl flex justify-center items-center cursor-pointer hover:opacity-90 transition-opacity"
                   />

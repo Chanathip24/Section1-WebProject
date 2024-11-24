@@ -54,6 +54,7 @@ const DashAddUsers = () => {
         return "";
     }
   };
+
   //handlechange
   const handlechange = (e) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -92,7 +93,7 @@ const DashAddUsers = () => {
     //logic insert data to db
     try {
       setClick(true);
-      const res = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_ROUTE}/user/registeradmin`,
         user
       );

@@ -1,29 +1,30 @@
 const db = require("../config/db.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 const JWT_SECRET = process.env.JWT_SECRET || "catcat";
 
 //generate login token
-const generateToken = (res,id,email,role) => {
-  const token = jwt.sign(
-    { id: id, email: email, role: role },
-    JWT_SECRET,
-    {
-      expiresIn: "30d",
-      algorithm: "HS256",
-    }
-  );
+const generateToken = (res, id, email, role) => {
+  const token = jwt.sign({ id: id, email: email, role: role }, JWT_SECRET, {
+    expiresIn: "30d",
+    algorithm: "HS256",
+  });
   res.cookie("token", token, {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    sameSite : 'strict',
+    sameSite: "strict",
     maxAge: 1000 * 60 * 60 * 24 * 30, // 30 วัน
   });
 };
 
 exports.checkLogin = (req, res) => {
-  return res.json({id:req.user.id, role: req.user.role, email: req.user.email });
+  return res.json({
+    id: req.user.id,
+    role: req.user.role,
+    email: req.user.email,
+  });
 };
 
 exports.userLogout = (req, res) => {
@@ -31,29 +32,47 @@ exports.userLogout = (req, res) => {
   return res.json("Logout successfully");
 };
 
-exports.userLogin = (req, res) => {
+exports.userLogin = async (req, res) => {
   const query = "SELECT * FROM users where email = ?";
-  const { email, password } = req.body;
+  const { email, password, recaptchaToken } = req.body;
 
-  db.query(query, [email], (err, result) => {
-    if (err) res.status(500).json(err);
+  //recaptcha
+  const secret = "6Lefv4gqAAAAAJ9E4gyyHpmFY7Fb0GJTEHL5j31I";
+  try {
+    const recaptchaRes = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${recaptchaToken}`
+    );
+    //recaptcha token ผิด
+    if (!recaptchaRes.data.success) {
+      return res.status(400).json({
+        error: "reCAPTCHA verification failed",
+      });
+    }
 
-    if (!result || result.length === 0)
-      return res.status(500).json("This email is not registered");
+    db.query(query, [email], (err, result) => {
+      if (err) res.status(500).json(err);
 
-    const user = result[0];
-    const userPassword = user.password;
+      if (!result || result.length === 0)
+        return res.status(500).json("This email is not registered");
 
-    bcrypt.compare(password, userPassword, (err, result) => {
-      if (err) return res.status(500).json(err);
-      if (!result) return res.status(400).json("Wrong password");
+      const user = result[0];
+      const userPassword = user.password;
 
-      //generate login
-      generateToken(res,user.id,user.email,user.role)
-      
-      return res.status(200).json("success");
+      bcrypt.compare(password, userPassword, (err, result) => {
+        if (err) return res.status(500).json(err);
+        if (!result) return res.status(400).json("Wrong password");
+
+        //generate login
+        generateToken(res, user.id, user.email, user.role);
+
+        return res.status(200).json("success");
+      });
     });
-  });
+  } catch (error) {
+    res.status(500).json({
+      error: "Server error",
+    });
+  }
 };
 
 exports.userRegister = async (req, res) => {
@@ -61,24 +80,43 @@ exports.userRegister = async (req, res) => {
   const query =
     "INSERT into users(email,fname,lname,password,address,phone,role) value(?,?,?,?,?,?,?)";
 
+    //recaptCha secret key kub
+  const secretKey = "6Lefv4gqAAAAAJ9E4gyyHpmFY7Fb0GJTEHL5j31I"
+
   //user data from form
-  const { email, fname, lname, password, address, phone } = req.body;
-  const role = req.body.role ? req.body.role : "CUSTOMER";
-  
-  bcrypt.hash(password, 10, (err, result) => {
-    if (err) return res.json(err);
-    db.query(
-      query,
-      [email, fname, lname, result, address, phone, role],
-      (err, result) => {
-        if (err) return res.status(500).json(err);
+  const { email, fname, lname, password, address, phone, recaptchaToken } =
+    req.body;
 
-        //generate token
-        generateToken(res,result.insertId,email,role)
-        
-
-        return res.status(200).json("Register success");
-      }
+  try {
+    const recaptchaRes = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`
     );
-  });
+
+    if (!recaptchaRes.data.success) {
+      return res.status(400).json({
+        error: "reCAPTCHA verification failed",
+      });
+    }
+
+    const role = req.body.role ? req.body.role : "CUSTOMER";
+    bcrypt.hash(password, 10, (err, result) => {
+      if (err) return res.json(err);
+      db.query(
+        query,
+        [email, fname, lname, result, address, phone, role],
+        (err, result) => {
+          if (err) return res.status(500).json(err);
+
+          //generate token
+          generateToken(res, result.insertId, email, role);
+
+          return res.status(200).json("Register success");
+        }
+      );
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Server error",
+    });
+  }
 };

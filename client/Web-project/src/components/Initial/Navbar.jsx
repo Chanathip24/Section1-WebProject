@@ -13,12 +13,17 @@ const Navbar = () => {
   axios.defaults.withCredentials = true;
   //check already login?
   const [isLogin, setLogin] = useState(null);
+  //user data
+  const [user, setUser] = useState(null);
 
   //fetch check credential
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/checklogin`);
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_ROUTE}/user/checklogin`
+        );
+        setUser(res.data);
 
         setLogin(true);
       } catch (error) {
@@ -27,10 +32,11 @@ const Navbar = () => {
     };
     checkLogin();
   }, []);
+
   //logout
   const userLogout = async () => {
     try {
-      const res = await axios.get("http://localhost:8081/user/logout");
+      await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/logout`);
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -126,16 +132,24 @@ const Navbar = () => {
               </li>
             ) : (
               <>
-                <li className={menustyle()}>
-                  <NavLink
-                    className={({ isActive }) => (isActive ? "font-bold" : "")}
-                    to="/dashboard"
-                  >
-                    Dashboard
-                  </NavLink>
-                </li>
+                {user?.role === "ADMIN" ? (
+                  <li className={menustyle()}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "font-bold" : ""
+                      }
+                      to="/dashboard"
+                    >
+                      Dashboard
+                    </NavLink>
+                  </li>
+                ) : (
+                  ""
+                )}
+
                 <li onClick={userLogout} className={menustyle()}>
-                  ออกจากระบบ
+                  Sign out
+                  
                 </li>
               </>
             )}
@@ -260,16 +274,18 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li className={`text-xl `}>
+            {user?.role === "ADMIN" ? <li className={`text-xl `}>
                 <NavLink
                   className={({ isActive }) => (isActive ? "font-bold" : "")}
                   to="/dashboard"
                 >
                   Dashboard
                 </NavLink>
-              </li>
+              </li> : ""}
+              
               <li onClick={userLogout} className="text-xl cursor-pointer">
-                ออกจากระบบ
+                Sign out
+                
               </li>
             </>
           )}
