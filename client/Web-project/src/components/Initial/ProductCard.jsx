@@ -25,7 +25,7 @@ const Items = ({ data }) => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
   return (
-    <article className="w-80 border  md:w-60  p-4">
+    <article className=" w-80 border  md:w-60  p-4">
       <div className="topcard w-[100%] h-[200px]  relative rounded-xl">
         <div className="rounded-xl absolute bottom-0 flex justify-center w-full">
           <button

@@ -13,8 +13,25 @@ const DashUsers = () => {
   axios.defaults.withCredentials = true;
 
   //fetch data 
-  const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/user/getall`)
+  // const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/user/getall`)
 
+  const [data, setData] = useState([]);
+  const [loading , setLoading]= useState(true)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_ROUTE}/user/getall`
+        );
+        setData(res.data);
+      } catch (error) {
+        console.log(error)
+      }finally{
+        setLoading(false)
+      }
+    };
+    fetchData()
+  });
 
   //delete user using id
   const deleteUser = async (id) => {

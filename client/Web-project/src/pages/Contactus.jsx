@@ -50,7 +50,9 @@ const Contactus = () => {
             </form>
             <figure className="flex flex-col  items-center w-1/2">
               {/* img */}
-              <div className="w-[380px] h-[380px] bg-stone-200 rounded-full" />
+              <div className="w-[380px] h-[380px] bg-stone-200 rounded-full" >
+                <img src={'people/peopleGun.jpg'} className="w-full h-full rounded-full object-cover" alt="" />
+              </div>
               <div className="mt-10 pl-16">
                 <p className="text-sm font-light mb-4 ">
                   <IoLocationSharp className="inline mr-2 text-xl" /> Thailand

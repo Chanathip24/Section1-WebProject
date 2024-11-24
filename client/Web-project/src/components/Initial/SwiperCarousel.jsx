@@ -12,8 +12,10 @@ const SwiperCarousel = ({ children }) => {
   return (
     <motion.section initial={{opacity : 0}} animate={{opacity:1}} className="container mx-auto mb-5 rounded-xl">
       <Swiper
+      
         pagination={{ clickable: true }}
         navigation
+        
         modules={[Pagination, Navigation, Autoplay,EffectCoverflow]}
         autoplay={{
           delay: 3500,

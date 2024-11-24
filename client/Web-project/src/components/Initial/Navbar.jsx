@@ -141,7 +141,7 @@ const Navbar = () => {
             )}
             {!isLogin ? (
               <li className="flex items-center text-xl hover:cursor-pointer">
-                <NavLink to="login">
+                <NavLink to="/login">
                   <CiUser />
                 </NavLink>
               </li>

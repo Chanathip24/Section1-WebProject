@@ -6,6 +6,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  background-color: #FBFCF8;
+}
 * {
   font-family: "Poppins","Archivo", "Kanit", sans-serif;
 }

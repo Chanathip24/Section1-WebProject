@@ -17,11 +17,13 @@ import SubCarousel2 from "../components/Initial/SubCarousel2";
 import Loading from "../components/Initial/Loading";
 import SwiperCarousel from "../components/Initial/SwiperCarousel";
 
+
 const Home = () => {
   const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/getall`)
   //loading
   if (loading) return <Loading />;
-  if(error) return <h1>Error isus  </h1>
+  if(error) return <h1>Please refresh this page again</h1>
+
   return (
     <>
     

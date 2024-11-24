@@ -11,7 +11,6 @@ import DashAddUsers from "./components/Dashboard/DashAddUsers";
 import DashEditUser from "./components/Dashboard/DashEditUser";
 import DashAddProduct from "./components/Dashboard/DashAddProduct";
 import DashEditProduct from "./components/Dashboard/DashEditProduct";
-import Loading from "./components/Initial/Loading";
 import ProtectedRoute from "./services/ProtectedRoute";
 import Learnmore from "./pages/Learnmore";
 import Search from "./pages/Search";

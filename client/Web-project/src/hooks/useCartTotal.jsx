@@ -25,7 +25,7 @@ const useCartTotal = () => {
         console.error('Error parsing cart:', error);
         navigate('/cart');
       }
-    }, [navigate]);
+    }, []);
   
     return { total, items };
   };

@@ -81,8 +81,8 @@ const Cart = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {cartItems.map((item) => (
-                          <tr key={item.id} className="border-b">
+                        {cartItems.map((item,key) => (
+                          <tr key={key} className="border-b">
                             <td className="py-4 px-4">
                               <div className="flex gap-4 items-center">
                                 <img

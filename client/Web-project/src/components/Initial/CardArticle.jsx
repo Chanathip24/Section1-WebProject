@@ -2,7 +2,7 @@ import React from "react";
 
 const CardArticle = () => {
   return (
-    <article className="text-center w-full md:w-1/4 p-4 bg-white rounded-lg ">
+    <article className="hover:drop-shadow-xl transition-all text-center w-full md:w-1/4 p-4 bg-white rounded-xl hover:scale-105 ">
       {/* Avatar */}
       <div className="flex justify-center mb-4">
         <div className="border border-black h-24 w-24 flex items-center justify-center rounded-full">

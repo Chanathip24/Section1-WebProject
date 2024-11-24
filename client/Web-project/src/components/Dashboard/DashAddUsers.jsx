@@ -13,6 +13,7 @@ const DashAddUsers = () => {
   //inputstyle
   const inputstyle =
     "p-3 border focus:outline-none border-gray-400 rounded-lg resize-none";
+
   //user
   const [user, setUser] = useState({
     fname: "",
@@ -24,34 +25,89 @@ const DashAddUsers = () => {
     address: "",
   });
 
+  // Add errors state
+  const [errors, setErrors] = useState({
+    fname: "",
+    lname: "",
+    phone: "",
+    email: "",
+    password: "",
+    address: "",
+  });
+
+  const validateError = (name, value) => {
+    switch (name) {
+      case "fname":
+      case "lname":
+        return value.length < 2  ? "Must be at least 2 characters" : "";
+      case "phone":
+        return !/^\+?[\d\s-]{10,}$/.test(value)
+          ? "Please enter a valid phone number"
+          : "";
+      case "email":
+        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? "Please enter a valid email"
+          : "";
+      case "password":
+        return value.length < 6 ? "Password must be at least 6 characters" : "";
+      default:
+        return "";
+    }
+  };
   //handlechange
   const handlechange = (e) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+    //check error
+    const error = validateError(e.target.name, e.target.value);
+    setErrors((prev) => ({ ...prev, [e.target.name]: error }));
   };
   //submit
   const handlesubmit = async (e) => {
     //stop default
     e.preventDefault();
+    
     //checking click first
     if (isClick) return toast.error("Wait! you are click too fast");
 
+    // Validate all fields before submission
+    const newErrors = {};
+    let hasErrors = false;
+    
+    Object.keys(user).forEach((key) => {
+      if (key !== "role") {
+        const error = validateError(key, user[key]);
+        if (error) {
+          newErrors[key] = error;
+          hasErrors = true;
+        }
+      }
+    })
+    if (hasErrors) {
+      toast.error("Please fix all errors before submitting");
+      setErrors(newErrors);
+      
+      return;
+    }
     //logic insert data to db
     try {
       setClick(true);
-      const res = await axios.post(`${import.meta.env.VITE_API_ROUTE}/user/registeradmin`, user);
-      toast.success("Create user successfully")
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_ROUTE}/user/registeradmin`,
+        user
+      );
+      toast.success("Create user successfully");
       //redirect
       setTimeout(() => {
         navigate("/dashboard/users");
       }, 3000);
     } catch (error) {
       setClick(true);
-      toast.error("Create user failed")
+      toast.error("Create user failed");
     } finally {
-        setTimeout(()=>{
-            setClick(false);
-        },1200)
-      
+      setTimeout(() => {
+        setClick(false);
+      }, 1200);
     }
   };
   return (
@@ -59,7 +115,7 @@ const DashAddUsers = () => {
       <Toaster />
       <Dashnav className="bg-white h-full" />
       <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
-        <DashEditHead title={"Create User"} url={"/dashboard/users"}/>
+        <DashEditHead title={"Create User"} url={"/dashboard/users"} />
         <form className="flex gap-2 flex-col w-1/2">
           <label>First name</label>
           <input
@@ -67,8 +123,11 @@ const DashAddUsers = () => {
             type="text"
             placeholder="First name"
             name="fname"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.fname ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.fname}</span>
 
           <label>Last name</label>
           <input
@@ -76,8 +135,11 @@ const DashAddUsers = () => {
             type="text"
             placeholder="Last name"
             name="lname"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.lname ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.lname}</span>
 
           <label>Phone number</label>
           <input
@@ -85,8 +147,11 @@ const DashAddUsers = () => {
             type="text"
             placeholder="Phone number"
             name="phone"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.phone ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.phone}</span>
 
           <label>Email</label>
           <input
@@ -94,8 +159,11 @@ const DashAddUsers = () => {
             type="email"
             placeholder="Email"
             name="email"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.email ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.email}</span>
 
           <label>Password</label>
           <input
@@ -103,17 +171,14 @@ const DashAddUsers = () => {
             type="password"
             placeholder="Password"
             name="password"
-            className={inputstyle}
+            className={`${inputstyle} ${
+              errors.password ? "border border-red-500" : ""
+            }`}
           />
+          <span className="text-red-600">{errors?.password}</span>
 
           <label>Role</label>
-          <select
-            onChange={handlechange}
-            type="text"
-            placeholder="First name"
-            name="role"
-            className={inputstyle}
-          >
+          <select onChange={handlechange} name="role" className={inputstyle}>
             <option value="CUSTOMER">CUSTOMER</option>
             <option value="ADMIN">ADMIN</option>
           </select>

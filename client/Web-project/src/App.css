@@ -1,3 +1,8 @@
+#socialCard {
+  position: absolute;
+  display: flex;
+}
+/* absolute flex justify-end p-5 */
 .underline-animation {
   display: inline-block;
   position: relative;
@@ -25,35 +30,6 @@
 
 .underline-animation.toleft:hover::after {
   transform-origin: bottom left;
-}
-
-.marquee {
-  height: 25px;
-  overflow: hidden;
-  position: relative;
-}
-
-.marquee div {
-  display: block;
-  width: 200%;
-  height: 30px;
-  position: absolute;
-  overflow: hidden;
-  animation: marquee 20s linear infinite;
-}
-
-.marquee span {
-  float: left;
-  width: 25%;
-}
-
-@keyframes marquee {
-  0% {
-    left: 0;
-  }
-  100% {
-    left: -100%;
-  }
 }
 
 /* card buy */

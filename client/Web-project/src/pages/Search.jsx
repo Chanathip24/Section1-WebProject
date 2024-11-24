@@ -70,8 +70,7 @@ const Search = () => {
   //submit search data
   const handleSubmit = (e) => {
     e.preventDefault();
-    const categories = [searchData.category, searchData.sub_category];
-    console.log(searchData.product_name);
+    const categories = [searchData.category, searchData.sub_category]
     const filteredProduct = productData.filter((item) => {
       // check name
       const isProductNameMatch =
@@ -87,7 +86,7 @@ const Search = () => {
       //check price max min
       const priceCheck =
         (!searchData.min_price ||
-          item.price > parseFloat(searchData.min_price)) &&
+          item.price >= parseFloat(searchData.min_price)) &&
         (!searchData.max_price ||
           item.price < parseFloat(searchData.max_price));
 
@@ -138,12 +137,12 @@ const Search = () => {
       <SubCarousel />
       <main className="min-h-screen container mx-auto">
         {/* Search Form */}
-        <h1 className="mb-5 md:mb-3 flex text-2xl font-semibold items-center justify-end">
+        <h1 onClick={toggleSearch} className="mb-5 md:mb-3 flex text-2xl font-semibold items-center justify-end cursor-pointer">
           {" "}
           Toggle menu
           <MdOutlineKeyboardArrowDown
             className="text-5xl"
-            onClick={toggleSearch}
+            
           />{" "}
         </h1>
 
@@ -255,8 +254,9 @@ const Search = () => {
             </div>
           </form>
         </section>
+
         {/* Show product after search*/}
-        <section className="container mx-center">
+        <section className="container mb-10 mx-center">
           {realProduct.length > 0 && (
             <div>
               <h1 className="font-bold text-2xl text-center md:text-start">

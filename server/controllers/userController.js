@@ -2,10 +2,28 @@ const db = require("../config/db.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = process.env.JWT_SECRET || "catcat"
+const JWT_SECRET = process.env.JWT_SECRET || "catcat";
+
+//generate login token
+const generateToken = (res,id,email,role) => {
+  const token = jwt.sign(
+    { id: id, email: email, role: role },
+    JWT_SECRET,
+    {
+      expiresIn: "30d",
+      algorithm: "HS256",
+    }
+  );
+  res.cookie("token", token, {
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    sameSite : 'strict',
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 วัน
+  });
+};
 
 exports.checkLogin = (req, res) => {
-  return res.json({ role: req.user.role, email: req.user.email });
+  return res.json({id:req.user.id, role: req.user.role, email: req.user.email });
 };
 
 exports.userLogout = (req, res) => {
@@ -19,7 +37,7 @@ exports.userLogin = (req, res) => {
 
   db.query(query, [email], (err, result) => {
     if (err) res.status(500).json(err);
-    
+
     if (!result || result.length === 0)
       return res.status(500).json("This email is not registered");
 
@@ -30,21 +48,15 @@ exports.userLogin = (req, res) => {
       if (err) return res.status(500).json(err);
       if (!result) return res.status(400).json("Wrong password");
 
-      const token = jwt.sign({id:user.id, email: user.email, role: user.role }, JWT_SECRET, {
-        expiresIn: "1d",
-        algorithm: "HS256"
-      });
-      res.cookie("token", token, {
-        secure: false,
-        httpOnly: true,
-        maxAge: 1000*60*60,
-      });
+      //generate login
+      generateToken(res,user.id,user.email,user.role)
+      
       return res.status(200).json("success");
     });
   });
 };
 
-exports.userRegister = (req, res) => {
+exports.userRegister = async (req, res) => {
   // query update table users
   const query =
     "INSERT into users(email,fname,lname,password,address,phone,role) value(?,?,?,?,?,?,?)";
@@ -52,26 +64,18 @@ exports.userRegister = (req, res) => {
   //user data from form
   const { email, fname, lname, password, address, phone } = req.body;
   const role = req.body.role ? req.body.role : "CUSTOMER";
-
+  
   bcrypt.hash(password, 10, (err, result) => {
     if (err) return res.json(err);
     db.query(
       query,
       [email, fname, lname, result, address, phone, role],
-      (err,result) => {
+      (err, result) => {
         if (err) return res.status(500).json(err);
 
-        //if pass sign jwt
-        const token = jwt.sign({id:result.insertId , email: email, role: role }, JWT_SECRET, {
-          expiresIn: "1d",
-          algorithm: "HS256"
-        });
-        //cookie store jwt token
-        res.cookie("token", token, {
-          secure: false,
-          httpOnly: true,
-          maxAge: 1000*60*60, //1 hour
-        });
+        //generate token
+        generateToken(res,result.insertId,email,role)
+        
 
         return res.status(200).json("Register success");
       }
