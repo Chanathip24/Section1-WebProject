@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 //icon
 import { CiUser } from "react-icons/ci";
 import { CiShoppingCart } from "react-icons/ci";
@@ -36,8 +37,20 @@ const Navbar = () => {
   //logout
   const userLogout = async () => {
     try {
-      await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/logout`);
-      navigate("/login");
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Are you leaving us T_T",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Yes, am gonna go!",
+        cancelButtonText: "Cancel",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/logout`);
+          navigate("/login");
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -144,12 +157,20 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ) : (
-                  ""
+                  <li className={menustyle()}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "font-bold" : ""
+                      }
+                      to="/member/dashboard"
+                    >
+                      Dashboard
+                    </NavLink>
+                  </li>
                 )}
 
                 <li onClick={userLogout} className={menustyle()}>
                   Sign out
-                  
                 </li>
               </>
             )}
@@ -274,18 +295,28 @@ const Navbar = () => {
             </>
           ) : (
             <>
-            {user?.role === "ADMIN" ? <li className={`text-xl `}>
-                <NavLink
-                  className={({ isActive }) => (isActive ? "font-bold" : "")}
-                  to="/dashboard"
-                >
-                  Dashboard
-                </NavLink>
-              </li> : ""}
-              
+              {user?.role === "ADMIN" ? (
+                <li className={`text-xl `}>
+                  <NavLink
+                    className={({ isActive }) => (isActive ? "font-bold" : "")}
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+              ) : (
+                <li className={`text-xl `}>
+                  <NavLink
+                    className={({ isActive }) => (isActive ? "font-bold" : "")}
+                    to="/member/dashboard"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+              )}
+
               <li onClick={userLogout} className="text-xl cursor-pointer">
                 Sign out
-                
               </li>
             </>
           )}

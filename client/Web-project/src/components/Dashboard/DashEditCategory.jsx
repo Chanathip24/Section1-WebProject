@@ -41,7 +41,7 @@ const DashEditCategory = () => {
     <main className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
     <Toaster/>
       <Dashnav className="bg-white h-full" />
-      <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
+      <section className="overflow-y-scroll p-5 bg-white">
         <DashEditHead title={"Edit Category"} url={"/dashboard/category"} />
         <form className="flex flex-col gap-3 w-1/2">
           <label>New category name</label>

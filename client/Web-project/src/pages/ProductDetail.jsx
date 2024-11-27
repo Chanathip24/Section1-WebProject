@@ -61,12 +61,12 @@ const ProductDetail = () => {
             </Link>{" "}
             &gt;{" "}
           </span>
-          {product.product_name}
+          {product?.product_name}
         </h1>
 
         <section className="flex mb-10 flex-col md:flex-row flex-wrap justify-center md:flex-nowrap gap-8">
           <div className="h-max md:w-1/2 flex-col items-center justify-center">
-            {Array.isArray(product.images) && product.images.length > 0 && (
+            {product && Array.isArray(product.images) && product.images.length > 0 && (
               <img
                 src={`${import.meta.env.VITE_API_ROUTE}/${product.images[0]}`}
                 onClick={() => openModal(0)}
@@ -75,7 +75,7 @@ const ProductDetail = () => {
             )}
 
             <div className="flex gap-5 mt-4">
-              {Array.isArray(product.images) &&
+              {product && Array.isArray(product.images) &&
                 product.images.length > 0 &&
                 product.images.map((image, index) => (
                   <img
@@ -92,10 +92,10 @@ const ProductDetail = () => {
           <div className="md:w-1/2 px-10 flex flex-col gap-8 mb-10">
             <div>
               <h1 className="text-xl font-bold text-gray-800">
-                {product.product_name}
+                {product?.product_name}
               </h1>
               <h1 className="text-sm text-gray-500">
-                {Array.isArray(product.categories) &&
+                {product && Array.isArray(product.categories) &&
                 product.categories.length > 0
                   ? product.categories[0]
                   : null}{" "}
@@ -106,11 +106,11 @@ const ProductDetail = () => {
               </h1>
               <div className="flex items-center space-x-4">
                 <p className="text-xl font-semibold text-gray-800">
-                  ฿{product.price}
+                  ฿{new Intl.NumberFormat().format(product?.price)}
                 </p>
-                {product.stock_quantity > 0 ? (
+                {product?.stock_quantity > 0 ? (
                   <p className="text-sm font-medium">
-                    <span className="text-green-300">● </span>In stock!
+                    <span className="text-green-300">● </span>{new Intl.NumberFormat().format(product?.stock_quantity)} In stock!
                   </p>
                 ) : (
                   <p className="text-sm font-medium">
@@ -119,10 +119,13 @@ const ProductDetail = () => {
                 )}
               </div>
             </div>
+
+            {/* Sold quantity */}
+            <p className="text-sm text-gray-500">{product?.sold_quantity} has been sold.</p>
             {product.stock_quantity > 0 ? (
               <button
                 onClick={addToCart}
-                className="bg-green-500 text-white px-4 py-2 rounded-lg w-full font-semibold hover:bg-green-600"
+                className="bg-green-500 transition text-white px-4 py-2 rounded-lg w-full font-semibold hover:bg-green-600"
               >
                 BUY
               </button>
@@ -134,7 +137,7 @@ const ProductDetail = () => {
                 Out of stock!
               </button>
             )}
-
+      
             <ul className="text-gray-700 text-sm space-y-1">
               <li>• Get free gift for order above 300 baht</li>
               <li>• ALERT! Drink happy, feel happy.</li>

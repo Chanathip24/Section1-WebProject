@@ -35,12 +35,11 @@ const DashProduct = () => {
       prevProducts.filter((product) => product.product_id !== id)
     );
   };
-  if (loading) return <Loading />;
   return (
     <>
       <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
         <Dashnav className="bg-white h-full" />
-        <div className="overflow-y-scroll p-5 bg-[rgb(250,249,246)]">
+        <div className="overflow-y-scroll p-5 bg-white">
           <DashTitleHead
             title={"All Products"}
             total={data?.length}

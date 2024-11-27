@@ -115,7 +115,7 @@ const DashAddProduct = () => {
       <Toaster />
       <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
         <Dashnav className="bg-white h-full" />
-        <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
+        <section className="overflow-y-scroll p-5 bg-white">
           <DashEditHead title={"Create Product"} url={"/dashboard/products"} />
           <div className="grid grid-cols-2 gap-x-10">
             <div className="border border-gray-400 rounded-lg py-10 px-12">

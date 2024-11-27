@@ -76,47 +76,44 @@ const DashUsers = () => {
 
   };
 
-
-  //load data
-  if (loading) {
-    return <Loading />;
-  }
-
+  //style
+  const theaderStyle = "text-left text-xs font-medium text-gray-500 uppercase py-3 px-6"
+  const trowStyle = "px-6 py-4 text-sm text-gray-800"
   return (
     <main className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Dashnav className="bg-white h-full" />
-      <section className="overflow-y-scroll  min-h-full p-5 bg-[#FAF9F6]">
+      <section className="overflow-y-scroll  min-h-full p-5 bg-white">
         <DashTitleHead
           title={"All Users"}
-          total={data.length}
+          total={data?.length}
           url={"/dashboard/users/addusers"}
         />
         <div className="overflow-x-auto">
           <table className="table-auto text-left w-full  border-separate border-spacing-y-4">
             <thead className="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
               <tr>
-                <th className="px-4 py-2 border">ID</th>
-                <th className="px-4 py-2 border">First Name</th>
-                <th className="px-4 py-2 border">Last Name</th>
-                <th className="px-4 py-2 border">Phone</th>
-                <th className="px-4 py-2 border">Email</th>
-                <th className="px-4 py-2 border">Role</th>
-                <th className="px-4 py-2 border"></th>
+                <th className={theaderStyle}>ID</th>
+                <th className={theaderStyle}>First Name</th>
+                <th className={theaderStyle}>Last Name</th>
+                <th className={theaderStyle}>Phone</th>
+                <th className={theaderStyle}>Email</th>
+                <th className={theaderStyle}>Role</th>
+                <th className={theaderStyle}></th>
               </tr>
             </thead>
             <tbody>
               
-              {Array.isArray(data) && data && data.length > 0 ? (
+              { data && Array.isArray(data) && data.length > 0 ? (
                 data.map((data, key) => {
                   return (
                     <tr className="border" key={key}>
-                      <td className="px-4 ">{data.id}</td>
-                      <td className="px-4 ">{data.fname}</td>
-                      <td className="px-4 ">{data.lname}</td>
-                      <td className="px-4 ">{data.phone}</td>
-                      <td className="px-4 ">{data.email}</td>
-                      <td className="px-4 ">{data.role}</td>
-                      <td className="px-4 flex justify-center gap-2">
+                      <td className={trowStyle}>{data.id}</td>
+                      <td className={trowStyle}>{data.fname}</td>
+                      <td className={trowStyle}>{data.lname}</td>
+                      <td className={trowStyle}>{data.phone}</td>
+                      <td className={trowStyle}>{data.email}</td>
+                      <td className={trowStyle}>{data.role}</td>
+                      <td className={`${trowStyle} flex gap-2`}>
                         <Link to={`/dashboard/users/editusers/${data.id}`}>
                           <button className="px-4 py-1 cursor-pointer bg-yellow-400 rounded-lg text-white hover:bg-yellow-500 transition">
                             Manage

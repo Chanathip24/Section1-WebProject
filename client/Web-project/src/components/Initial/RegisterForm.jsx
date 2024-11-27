@@ -21,9 +21,13 @@ const RegisterForm = () => {
   const [isVerified, setIsVerified] = useState(false);
   const SITE_KEY = "6Lefv4gqAAAAALAttneODeYFTvcdz8No5Kh5OxYB";
   const handleRecaptchaChange = async (token) => {
-    setIsVerified(!!token);
     if (token) {
-      setData((prev) => ({ ...prev, recaptchaToken: token }));
+      setIsVerified(true);
+      const newToken = await recaptchaRef.current.getValue();
+      setData((prev) => ({ ...prev, recaptchaToken: newToken }));
+    } else {
+      setIsVerified(false);
+      toast.error("reCAPTCHA verification expired. Please try again.");
     }
   };
   // Base input style remains the same
@@ -93,7 +97,7 @@ const RegisterForm = () => {
     }
     //check Recaptcha
     if (!isVerified) {
-      toast.error('Please verify that you are human!');
+      toast.error("Please verify that you are human!");
       return;
     }
     setIsLoading(true);
@@ -102,12 +106,18 @@ const RegisterForm = () => {
         `${import.meta.env.VITE_API_ROUTE}/user/register`,
         data
       );
-      toast.success(res.data);
+      toast.success(res.data.msg);
       setTimeout(() => {
         navigate("/");
       }, 3000);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.msg || "Something went wrong");
+
+      // Reset reCAPTCHA
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+        setIsVerified(false);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -200,7 +210,11 @@ const RegisterForm = () => {
             {errors.password}
           </span>
         )}
-        <ReCAPTCHA onChange={handleRecaptchaChange} sitekey={SITE_KEY} ref={recaptchaRef} />
+        <ReCAPTCHA
+          onChange={handleRecaptchaChange}
+          sitekey={SITE_KEY}
+          ref={recaptchaRef}
+        />
         <p className="underline text-gray-600 font-thin">FORGOT PASSWORD</p>
         <button
           onClick={handleSubmit}

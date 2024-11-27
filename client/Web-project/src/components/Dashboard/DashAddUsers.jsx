@@ -115,7 +115,7 @@ const DashAddUsers = () => {
     <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Toaster />
       <Dashnav className="bg-white h-full" />
-      <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
+      <section className="overflow-y-scroll p-5 bg-white">
         <DashEditHead title={"Create User"} url={"/dashboard/users"} />
         <form className="flex gap-2 flex-col w-1/2">
           <label>First name</label>

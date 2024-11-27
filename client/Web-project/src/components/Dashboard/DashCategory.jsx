@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -12,12 +12,11 @@ import DashTitleHead from "./components/DashTitleHead";
 import Loading from "../Initial/Loading";
 
 const DashCategory = () => {
-
   //category data
   // const {data,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/category/getall`)
- 
+
   const [data, setData] = useState([]);
-  const [loading , setLoading]= useState(true)
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,16 +25,15 @@ const DashCategory = () => {
         );
         setData(res.data);
       } catch (error) {
-        console.log(error)
-      }finally{
-        setLoading(false)
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchData()
+    fetchData();
   });
-  
 
-  const deleteCatagory = async (id,name) => {
+  const deleteCatagory = async (id, name) => {
     try {
       const result = await Swal.fire({
         title: `Do you want to delete ${name} category?`,
@@ -46,7 +44,7 @@ const DashCategory = () => {
         confirmButtonColor: "#dc2626", // red-600
         cancelButtonColor: "#4b5563", // gray-600
       });
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         try {
           await axios.delete(
             `${import.meta.env.VITE_API_ROUTE}/category/delete/` + id
@@ -55,7 +53,7 @@ const DashCategory = () => {
             title: "Deleted!",
             text: `${name} has been deleted.`,
             icon: "success",
-            timer: 1500
+            timer: 1500,
           });
           setData((data) => data.filter((item) => item.category_id !== id));
         } catch (error) {
@@ -63,40 +61,40 @@ const DashCategory = () => {
           await Swal.fire({
             title: "Error!",
             text: "Failed to delete the product. Please try again.",
-            icon: "error"
+            icon: "error",
           });
         }
-
       }
-
     } catch (error) {
       console.log("Sweet Alert error:", error);
       await Swal.fire({
         title: "Error!",
         text: "Something went wrong. Please try again.",
-        icon: "error"
+        icon: "error",
       });
     }
   };
 
-  
-  if (loading) return <Loading />;
+  //style
+  const theaderStyle =
+    "text-left text-xs font-medium text-gray-500 uppercase py-3 px-6";
+  const trowStyle = "px-6 py-4 text-sm text-gray-800";
   return (
     <main className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Dashnav className="bg-white h-full" />
-      <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
+      <section className="bg-white overflow-y-scroll p-5 ">
         <DashTitleHead
           title={"Product Category"}
-          total={data.length}
+          total={data?.length}
           url={"/dashboard/category/addcategory"}
         />
         <div className="overflow-x-auto">
           <table className="table-auto text-left w-full  border-separate border-spacing-y-4">
             <thead className="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
               <tr>
-                <th className="px-4 py-2 border">ID</th>
-                <th className="px-4 py-2 border">Category Name</th>
-                <th className="px-4 py-2 border"></th>
+                <th className={theaderStyle}>ID</th>
+                <th className={theaderStyle}>Category Name</th>
+                <th className={theaderStyle}></th>
               </tr>
             </thead>
             <tbody>
@@ -104,9 +102,9 @@ const DashCategory = () => {
                 data.map((item, key) => {
                   return (
                     <tr key={key}>
-                      <td className="px-4">{item.category_id}</td>
-                      <td className="px-4">{item.category_name}</td>
-                      <td className="px-4 flex gap-4">
+                      <td className={trowStyle}>{item.category_id}</td>
+                      <td className={trowStyle}>{item.category_name}</td>
+                      <td className={`${trowStyle} flex gap-2`}>
                         <Link
                           to={`/dashboard/category/editcategory/${item.category_id}`}
                         >
@@ -117,7 +115,12 @@ const DashCategory = () => {
 
                         <button className="p-1 flex cursor-pointer items-center hover:bg-red-600 transition bg-red-500 rounded text-white text-xl">
                           <RiDeleteBinLine
-                            onClick={() => deleteCatagory(item.category_id,item.category_name)}
+                            onClick={() =>
+                              deleteCatagory(
+                                item.category_id,
+                                item.category_name
+                              )
+                            }
                           />
                         </button>
                       </td>

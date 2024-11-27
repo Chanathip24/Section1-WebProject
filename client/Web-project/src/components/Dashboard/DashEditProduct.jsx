@@ -97,7 +97,7 @@ const DashEditProduct = () => {
     });
     
     try {
-      const res = await axios.put(
+      await axios.put(
         `${import.meta.env.VITE_API_ROUTE}/product/edit/` + id,
         formData
       );
@@ -115,7 +115,7 @@ const DashEditProduct = () => {
       <Toaster />
       <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
         <Dashnav className="bg-white h-full" />
-        <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
+        <section className="overflow-y-scroll p-5 bg-white">
           <DashEditHead title={"Edit Product"} url={"/dashboard/products"} />
           <div className="grid grid-cols-2 gap-x-10">
             <div className="border border-gray-400 rounded-lg py-10 px-12">
@@ -160,7 +160,7 @@ const DashEditProduct = () => {
               <form action="" className="flex gap-2 flex-col">
                 <h1 className="font-bold text-2xl">Product Details</h1>
                 <label>
-                  Product Name : {product ? product.product_name : null}
+                  Product Name : {product?.product_name}
                 </label>
                 <input
                   required
@@ -207,7 +207,7 @@ const DashEditProduct = () => {
                       ))}
                 </select>
 
-                <label htmlFor="">Price {product ? product.price : null}</label>
+                <label htmlFor="">Price {product?.price}</label>
                 <input
                   required
                   onChange={handleformChange}
@@ -228,7 +228,7 @@ const DashEditProduct = () => {
                 ></textarea>
 
                 <label htmlFor="">
-                  Stock Quantity : {product ? product.stock_quantity : null}
+                  Stock Quantity : {product?.stock_quantity}
                 </label>
                 <input
                   required

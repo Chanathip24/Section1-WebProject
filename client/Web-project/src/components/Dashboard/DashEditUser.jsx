@@ -124,17 +124,17 @@ const DashEditUser = () => {
     setErrors((prev) => ({ ...prev, [e.target.name]: error }));
   };
 
-  if (loading) return <Loading />;
+
   return (
     <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
       <Toaster />
       <Dashnav className="bg-white h-full" />
-      <section className="overflow-y-scroll p-5 bg-[#FAF9F6]">
+      <section className="overflow-y-scroll p-5 bg-white">
         {/* title head */}
         <DashEditHead title={"Edit User"} url={"/dashboard/users"} />
 
         <form className="flex gap-2 flex-col w-1/2">
-          <label>First name : {data ? data.fname : ""}</label>
+          <label>First name : {data?.fname}</label>
           <input
             onChange={handlechange}
             type="text"
@@ -146,7 +146,7 @@ const DashEditUser = () => {
           />
           <span className="text-red-600">{errors?.fname}</span>
 
-          <label>Last name : {data ? data.lname : ""}</label>
+          <label>Last name : {data?.lname}</label>
           <input
             onChange={handlechange}
             type="text"
@@ -158,7 +158,7 @@ const DashEditUser = () => {
           />
           <span className="text-red-600">{errors?.lname}</span>
 
-          <label>Phone number : {data ? data.phone : ""}</label>
+          <label>Phone number : {data?.phone}</label>
           <input
             onChange={handlechange}
             type="text"
@@ -170,7 +170,7 @@ const DashEditUser = () => {
           />
           <span className="text-red-600">{errors?.phone}</span>
 
-          <label>Email {data ? data.email : ""}</label>
+          <label>Email {data?.email}</label>
           <input
             onChange={handlechange}
             type="email"
@@ -207,7 +207,7 @@ const DashEditUser = () => {
             <option value="ADMIN">ADMIN</option>
           </select>
 
-          <label>Address : {data ? data.address : ""}</label>
+          <label>Address : {data?.address}</label>
           <textarea
             onChange={handlechange}
             type="text"

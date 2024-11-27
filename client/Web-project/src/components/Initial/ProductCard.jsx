@@ -36,24 +36,24 @@ const Items = ({ data }) => {
             <span >Buy</span>
           </button>
         </div>
-        <NavLink to={`/product/`+data.product_id}>
+        <NavLink to={`/product/`+data?.product_id}>
           {" "}
           <img
             className="rounded-xl w-full h-full object-cover border  hover:cursor-pointer"
             src={
               data
-                ? `${import.meta.env.VITE_API_ROUTE}/${data.images[0]}`
+                ? `${import.meta.env.VITE_API_ROUTE}/${data?.images[0]}`
                 : "https://s3.amazonaws.com/www-inside-design/uploads/2018/12/The-product-of-you-810x810.png"
             }
-            alt={`Image of product name call ${data.product_name}`}
+            alt={`Image of product name call ${data?.product_name}`}
             width={400}
           />
         </NavLink>
       </div>
 
-      <h1 className="font-bold my-2">{data ? data.product_name : null}</h1>
-      <p className="">฿{data ? data.price : null}</p>
-      <p className="truncate text-gray-500">{data ? data.description : null}</p>
+      <h1 className="font-bold my-2">{data?.product_name}</h1>
+      <p className="">฿{ new Intl.NumberFormat().format(data?.price)}</p>
+      <p className="truncate text-gray-500">{data?.description}</p>
     </article>
   );
 };

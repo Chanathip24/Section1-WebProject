@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
 
+//log
+const { loguserAttempt } = require("../services/log.js");
+//jwt
 const JWT_SECRET = process.env.JWT_SECRET || "catcat";
 
 //generate login token
@@ -36,6 +39,9 @@ exports.userLogin = async (req, res) => {
   const query = "SELECT * FROM users where email = ?";
   const { email, password, recaptchaToken } = req.body;
 
+  //request ip
+  const ip = req.ip;
+  const userAgent = req.get("User-Agent"); //device ของ user
   //recaptcha
   const secret = "6Lefv4gqAAAAAJ9E4gyyHpmFY7Fb0GJTEHL5j31I";
   try {
@@ -53,18 +59,27 @@ exports.userLogin = async (req, res) => {
       if (err) res.status(500).json(err);
 
       if (!result || result.length === 0)
-        return res.status(500).json("This email is not registered");
+        return res.status(401).json({ msg: "This email is not registered" });
 
       const user = result[0];
       const userPassword = user.password;
 
       bcrypt.compare(password, userPassword, (err, result) => {
-        if (err) return res.status(500).json(err);
-        if (!result) return res.status(400).json("Wrong password");
+        if (err) {
+          loguserAttempt(user.id, ip, userAgent, "FAILED");
+          return res.status(500).json(err);
+        }
+        if (!result) {
+          loguserAttempt(user.id, ip, userAgent, "FAILED");
+          return res.status(401).json({ msg: "Password is invalid" });
+        }
 
-        //generate login
+        //if pass
+        //generate login token
         generateToken(res, user.id, user.email, user.role);
 
+        //update log
+        loguserAttempt(user.id, ip, userAgent, "SUCCESS");
         return res.status(200).json("success");
       });
     });
@@ -80,8 +95,8 @@ exports.userRegister = async (req, res) => {
   const query =
     "INSERT into users(email,fname,lname,password,address,phone,role) value(?,?,?,?,?,?,?)";
 
-    //recaptCha secret key kub
-  const secretKey = "6Lefv4gqAAAAAJ9E4gyyHpmFY7Fb0GJTEHL5j31I"
+  //recaptCha secret key kub
+  const secretKey = "6Lefv4gqAAAAAJ9E4gyyHpmFY7Fb0GJTEHL5j31I";
 
   //user data from form
   const { email, fname, lname, password, address, phone, recaptchaToken } =
@@ -99,22 +114,30 @@ exports.userRegister = async (req, res) => {
     }
 
     const role = req.body.role ? req.body.role : "CUSTOMER";
-    bcrypt.hash(password, 10, (err, result) => {
-      if (err) return res.json(err);
+    bcrypt.hash(password, 10, (err, hashpassword) => {
+      if (err) {
+        return res.json(err);
+      }
       db.query(
         query,
-        [email, fname, lname, result, address, phone, role],
+        [email, fname, lname, hashpassword, address, phone, role],
         (err, result) => {
-          if (err) return res.status(500).json(err);
+          if (err) {
+            //email ซ้ำ
+            if(err.code === "ER_DUP_ENTRY") return res.status(409).json({msg : "Email is already registered."})
+            
+            return res.status(500).json(err);
+          }
 
           //generate token
           generateToken(res, result.insertId, email, role);
-
-          return res.status(200).json("Register success");
+          loguserAttempt(result.insertId,req.ip,req.get('User-Agent'),"SUCCESS")
+          return res.status(200).json({msg : "Register successfully"});
         }
       );
     });
   } catch (error) {
+    
     res.status(500).json({
       error: "Server error",
     });

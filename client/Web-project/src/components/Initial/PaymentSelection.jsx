@@ -30,16 +30,7 @@ const PaymentSelection = ({ onSelectMethod, total, items }) => {
             <ArrowLeft className="w-5 h-5 transform rotate-180" />
           </button>
 
-          <button
-            onClick={() => onSelectMethod("credit")}
-            className="w-full flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center space-x-3">
-              <CreditCard className="w-6 h-6 text-blue-500" />
-              <span className="font-medium">Credit Card</span>
-            </div>
-            <ArrowLeft className="w-5 h-5 transform rotate-180" />
-          </button>
+          
         </div>
       </div>
     </div>

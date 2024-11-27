@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const loadCartFromStorage = () => {
       const storedCart = localStorage.getItem("cart");
@@ -30,10 +30,13 @@ const Cart = () => {
     calculateSubTotal();
   }, [cartItems]);
 
-  const updateQuantity = (productId, change) => {
+  const updateQuantity = (productId, change, stock = 0) => {
     const updatedCart = cartItems.map((item) => {
       if (item.product_id === productId) {
-        const newQuantity = Math.max(1, item.quantity + change);
+        const newQuantity = Math.max(
+          1,
+          Math.min(item.quantity + change, stock)
+        );
         return { ...item, quantity: newQuantity };
       }
       return item;
@@ -81,12 +84,14 @@ const Cart = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {cartItems.map((item,key) => (
+                        {cartItems.map((item, key) => (
                           <tr key={key} className="border-b">
                             <td className="py-4 px-4">
                               <div className="flex gap-4 items-center">
                                 <img
-                                  src={`${import.meta.env.VITE_API_ROUTE}/${item.images[0]}`}
+                                  src={`${import.meta.env.VITE_API_ROUTE}/${
+                                    item.images[0]
+                                  }`}
                                   alt={item.product_name}
                                   className="border w-20 h-20 object-cover rounded-lg bg-zinc-200"
                                 />
@@ -111,7 +116,13 @@ const Cart = () => {
                             <td className="text-center py-4 px-4">
                               <div className="flex items-center justify-center gap-3">
                                 <button
-                                  onClick={() => updateQuantity(item.product_id, -1)}
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.product_id,
+                                      -1,
+                                      item.stock_quantity
+                                    )
+                                  }
                                   className="p-1 hover:bg-gray-100 rounded"
                                 >
                                   <Minus size={16} />
@@ -120,7 +131,13 @@ const Cart = () => {
                                   {item.quantity}
                                 </span>
                                 <button
-                                  onClick={() => updateQuantity(item.product_id, 1)}
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.product_id,
+                                      1,
+                                      item.stock_quantity
+                                    )
+                                  }
                                   className="p-1 hover:bg-gray-100 rounded"
                                 >
                                   <Plus size={16} />
@@ -171,7 +188,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <button
-                  onClick={()=> navigate('/checkout')}
+                    onClick={() => navigate("/checkout")}
                     className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold mt-6 hover:bg-green-600 transition-colors"
                     disabled={cartItems.length === 0}
                   >
@@ -183,7 +200,7 @@ const Cart = () => {
           </div>
         </section>
       </main>
-      <Footer/>
+      <Footer />
     </>
   );
 };

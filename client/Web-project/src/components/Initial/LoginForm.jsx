@@ -10,12 +10,16 @@ const LoginForm = () => {
   const recaptchaRef = useRef(null);
   const [isVerified, setIsVerified] = useState(false);
   const SITE_KEY = "6Lefv4gqAAAAALAttneODeYFTvcdz8No5Kh5OxYB"; //recaptCHA SITE_KEY
-  
+
   const handleRecaptchaChange = async (token) => {
-    
-    setIsVerified(!!token);
-    const newtoken = await recaptchaRef.current.getValue()
-    setUser((prev)=>({...prev,recaptchaToken : newtoken}))
+    if (token) {
+      setIsVerified(true);
+      const newToken = await recaptchaRef.current.getValue();
+      setUser((prev) => ({ ...prev, recaptchaToken: newToken }));
+    } else {
+      setIsVerified(false);
+      toast.error("reCAPTCHA verification expired. Please try again.");
+    }
   };
 
   //navigate
@@ -75,7 +79,7 @@ const LoginForm = () => {
       return;
     }
     if (!isVerified) {
-      toast.error('Please verify that you are human!');
+      toast.error("Please verify that you are human!");
       return;
     }
 
@@ -92,8 +96,14 @@ const LoginForm = () => {
         return navigate("/");
       }
     } catch (error) {
-      const message = error.response?.data || "Login failed";
+      const message = error.response?.data.msg || "Login failed";
       toast.error(message);
+
+      // Reset reCAPTCHA
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+        setIsVerified(false);
+      }
     } finally {
       setIsLoading(false);
     }

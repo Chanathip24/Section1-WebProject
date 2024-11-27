@@ -26,6 +26,9 @@ import Checkout from "./pages/Checkout";
 import Failed from "./pages/Failed";
 import Success from "./pages/Success";
 import DashOrder from "./components/Dashboard/DashOrder";
+import DashupdateOrder from "./components/Dashboard/DashupdateOrder";
+import MemberDashboard from "./pages/MemberDashboard";
+import OrderDetailPage from "./pages/OrderDetailPage";
 function App() {
   return (
     <>
@@ -38,16 +41,39 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/learnmore" element={<Learnmore />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/aboutus" element={<Aboutus/>} />
-          <Route path="/contactus" element={<Contactus/>} />
-          <Route path="/product/:id" element={<ProductDetail/>} />
-          <Route path="/cart" element={<Cart/>} />
-          <Route path="/checkout" element={<Checkout/>} />
-          <Route path="/success" element={<Success/>} />
-          <Route path="/failed" element={<Failed/>} />
-
+          <Route path="/aboutus" element={<Aboutus />} />
+          <Route path="/contactus" element={<Contactus />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute role={["CUSTOMER", "ADMIN"]}>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/success" element={<Success />} />
+          <Route path="/failed" element={<Failed />} />
           {/* check loading */}
           {/* <Route path="/loading" element={<Loading/>} /> */}
+          {/* Member Dashboard */}
+          <Route
+            path="/member/dashboard"
+            element={
+              <ProtectedRoute role={["CUSTOMER","ADMIN"]}>
+                <MemberDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/member/dashboard/order/:id"
+            element={
+              <ProtectedRoute role={["CUSTOMER","ADMIN"]}>
+                <OrderDetailPage />
+              </ProtectedRoute>
+            }
+          />
           {/* Dashboard */}
           <Route
             path="/dashboard"
@@ -57,7 +83,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/dashboard/products"
             element={
@@ -82,7 +107,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/dashboard/users"
             element={
@@ -107,11 +131,19 @@ function App() {
               </ProtectedRoute>
             }
           />
-                    <Route
+          <Route
             path="/dashboard/orders"
             element={
               <ProtectedRoute role="ADMIN">
-                <DashOrder/>
+                <DashOrder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/orders/update/:id"
+            element={
+              <ProtectedRoute role="ADMIN">
+                <DashupdateOrder />
               </ProtectedRoute>
             }
           />

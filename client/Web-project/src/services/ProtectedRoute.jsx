@@ -13,26 +13,23 @@ const ProtectedRoute = ({ role, children }) => {
     const checkLogin = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/checklogin`);
-      
-        if (res.status === 200 && res.data.role === role ) {
+        
+        if (res.status === 200 && role.includes(res.data.role)) {
           setPass(true); 
+          
         } else {
+          navigate('/login') 
           setPass(false); 
         }
       } catch (error) {
-        setPass(false); 
+        setPass(false);
+        navigate('/login') 
       }
     };
 
     checkLogin();
   }, []);
 
-  
-  useEffect(() => {
-    if (isPass === false) {
-      navigate("/login"); 
-    }
-  }, [isPass, navigate]);
 
   if (isPass === null) {
     return <Loading/>; 

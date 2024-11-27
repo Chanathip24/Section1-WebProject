@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Initial/Navbar";
 import Announcement from "../components/Initial/Announcement";
 import Footer from "../components/Initial/Footer";
-
+import useFetchData from "../hooks/useFetchData";
 //component page
 import PaymentSelection from "../components/Initial/PaymentSelection";
 
 import PromptPayQR from "../components/Initial/PromptPayQR";
-import CreditCardForm from "../components/Initial/CreditCardForm";
 // Total Calculator Custom Hook
 import useCartTotal from "../hooks/useCartTotal";
 
 const Checkout = () => {
+  //user data
+  const { data: realUser } = useFetchData(
+    `${import.meta.env.VITE_API_ROUTE}/user/checklogin`
+  );
   const [step, setStep] = useState("select");
-  const { total, items } = useCartTotal();
   const navigate = useNavigate();
+  //total item is state
+  const { total, items } = useCartTotal();
 
   //function to handle payment kub
   const handlePaymentSubmit = (success) => {
@@ -40,19 +44,12 @@ const Checkout = () => {
         return (
           <PromptPayQR
             onBack={() => setStep("select")}
+            id={realUser.id}
             total={total}
             items={items}
           />
         );
-      case "credit":
-        return (
-          <CreditCardForm
-            onBack={() => setStep("select")}
-            onSubmit={handlePaymentSubmit}
-            total={total}
-            items={items}
-          />
-        );
+     
       default:
         return null;
     }
