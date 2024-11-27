@@ -3,9 +3,7 @@ import {
   ShoppingCart,
   Receipt,
   Package,
-  UserCircle,
-  MapPin,
-  CreditCard,
+  UserCircle
 } from "lucide-react";
 import Navbar from "../components/Initial/Navbar";
 import Announcement from "../components/Initial/Announcement";
@@ -96,9 +94,6 @@ const MemberDashboard = () => {
             <h2 className="text-xl font-semibold text-gray-800">
               Order History
             </h2>
-            <button className="text-blue-600 hover:underline">
-              View All Orders
-            </button>
           </div>
 
           <div className="overflow-x-auto">
@@ -161,61 +156,9 @@ const MemberDashboard = () => {
           </div>
         </section>
 
-        {/* Additional Sections */}
-        <div className="grid md:grid-cols-2 gap-6 mt-8">
-          {/* Shipping Address */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">
-                Shipping Address
-              </h3>
-              <MapPin className="w-6 h-6 text-gray-500" />
-            </div>
-            <p className="text-gray-600">
-              123 Main Street
-              <br />
-              Apt 45B
-              <br />
-              New York, NY 10001
-              <br />
-              United States
-            </p>
-          </div>
-
-          {/* Payment Methods */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">
-                Payment Methods
-              </h3>
-              <CreditCard className="w-6 h-6 text-gray-500" />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-2">
-                  <img
-                    src="/visa-logo.png"
-                    alt="Visa"
-                    className="w-8 h-5 object-contain"
-                  />
-                  <span className="text-gray-800">**** **** **** 1234</span>
-                </div>
-                <span className="text-sm text-gray-500">Expires 12/25</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-2">
-                  <img
-                    src="/mastercard-logo.png"
-                    alt="Mastercard"
-                    className="w-8 h-5 object-contain"
-                  />
-                  <span className="text-gray-800">**** **** **** 5678</span>
-                </div>
-                <span className="text-sm text-gray-500">Expires 06/26</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        
+  
+        
       </main>
     </>
   );

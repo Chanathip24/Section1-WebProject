@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt");
 
 exports.adminRegister = (req, res) => {
   //check role first
-  if (req.user.role !== "ADMIN") return res.status(403).json("You are not an admin.");
+  if (req.user.role !== "ADMIN")
+    return res.status(403).json("You are not an admin.");
   // query update table users
   const query =
     "INSERT into users(email,fname,lname,password,address,phone,role) value(?,?,?,?,?,?,?)";
@@ -18,7 +19,10 @@ exports.adminRegister = (req, res) => {
       query,
       [email, fname, lname, result, address, phone, role],
       (err) => {
-        if (err) return res.status(500).json(err);
+        if (err) {
+          if(err.code === "ER_DUP_ENTRY") return res.status(500).json({msg : "This email is already registered."})
+          return res.status(500).json(err);
+        }
         return res.status(200).json("Register success");
       }
     );
@@ -97,7 +101,6 @@ exports.adminManageUser = (req, res) => {
     updateQueryParts.push("role = ?");
   }
 
- 
   // If password is provided, hash it
   if (password && password.trim() !== "") {
     bcrypt.hash(password, 10, (err, hashedPassword) => {
@@ -106,7 +109,9 @@ exports.adminManageUser = (req, res) => {
       updates.push(hashedPassword); // add password
       updateQueryParts.push("password = ?");
 
-      const updateQuery = `UPDATE users SET ${updateQueryParts.join(", ")} WHERE id = ?`;
+      const updateQuery = `UPDATE users SET ${updateQueryParts.join(
+        ", "
+      )} WHERE id = ?`;
       db.query(updateQuery, [...updates, userId], (err) => {
         if (err) return res.status(500).json(err);
         res.status(200).json("User updated successfully");
@@ -118,8 +123,10 @@ exports.adminManageUser = (req, res) => {
     if (updateQueryParts.length === 0) {
       return res.status(400).json("No fields to update");
     }
-    const updateQuery = `UPDATE users SET ${updateQueryParts.join(", ")} WHERE id = ?`;
-    db.query(updateQuery, [...updates,userId], (err) => {
+    const updateQuery = `UPDATE users SET ${updateQueryParts.join(
+      ", "
+    )} WHERE id = ?`;
+    db.query(updateQuery, [...updates, userId], (err) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("User updated successfully");
     });

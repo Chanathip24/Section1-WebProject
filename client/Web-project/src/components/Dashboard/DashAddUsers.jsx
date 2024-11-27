@@ -104,6 +104,7 @@ const DashAddUsers = () => {
       }, 3000);
     } catch (error) {
       setClick(true);
+      if(error.response?.data?.msg) return toast.error(error.response?.data?.msg)
       toast.error("Create user failed");
     } finally {
       setTimeout(() => {

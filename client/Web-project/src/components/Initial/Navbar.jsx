@@ -145,6 +145,14 @@ const Navbar = () => {
               </li>
             ) : (
               <>
+                <li className={menustyle()}>
+                  <NavLink
+                    className={({ isActive }) => (isActive ? "font-bold" : "")}
+                    to="/member/dashboard"
+                  >
+                    Member Dashboard
+                  </NavLink>
+                </li>
                 {user?.role === "ADMIN" ? (
                   <li className={menustyle()}>
                     <NavLink
@@ -157,16 +165,7 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ) : (
-                  <li className={menustyle()}>
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive ? "font-bold" : ""
-                      }
-                      to="/member/dashboard"
-                    >
-                      Dashboard
-                    </NavLink>
-                  </li>
+                  ""
                 )}
 
                 <li onClick={userLogout} className={menustyle()}>
