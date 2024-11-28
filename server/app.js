@@ -23,7 +23,7 @@ app.use(cors({
     credentials: true,
 }))
 
-// img
+// img static path
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //routes
 app.use("/user",userRoutes);
