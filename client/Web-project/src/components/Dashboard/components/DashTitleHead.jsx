@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const DashTitleHead = ({ title, total, url }) => {
+const DashTitleHead = ({ setSearch,title, total, url }) => {
   return (
     <>
       <section className="flex flex-col md:flex-row justify-between md:items-center">
@@ -10,9 +10,10 @@ const DashTitleHead = ({ title, total, url }) => {
         </div>
         <div className="flex gap-3">
           <input
+            onChange={(e)=> setSearch(e.target.value)}
             type="text"
             className="focus:outline-none p-2 border border-gray-200 rounded-lg"
-            placeholder="Search.."
+            placeholder="Search with anything you want...."
           />
           <Link to={url}>
             <button className="py-2 px-5 hover:bg-blue-500 transition text-white bg-blue-400 rounded-lg">

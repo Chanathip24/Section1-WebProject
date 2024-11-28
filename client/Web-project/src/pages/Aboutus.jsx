@@ -11,30 +11,30 @@ const Aboutus = () => {
   const teamData = [
     {
       name : "Jab Chanathip",
-      position : "Coding",
-      github : "github",
-      ig : "ig",
-      img: "https://scontent.fbkk29-1.fna.fbcdn.net/v/t39.30808-6/332853438_719701729701322_606043752226058657_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=SJwt4R4vWT0Q7kNvgGy5hgV&_nc_zt=23&_nc_ht=scontent.fbkk29-1.fna&_nc_gid=AHzxq0aaGqip2h2cmbsbTBZ&oh=00_AYA8ibrXCfQnp_Cy1-w9EGFM2qbhiz-qy-puAPPu-aVloA&oe=67467064"
+      position : "Leader/Coding",
+      github : "https://github.com/Chanathip24",
+      ig : "https://www.instagram.com/jabqq_/",
+      img: "https://scontent.fbkk29-1.fna.fbcdn.net/v/t39.30808-6/332853438_719701729701322_606043752226058657_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=8CsopLnsEtMQ7kNvgFJET3p&_nc_zt=23&_nc_ht=scontent.fbkk29-1.fna&_nc_gid=A1vJIZYxJrAd_UGJS-_db69&oh=00_AYBaF9PS_Fk6d2x2lUie5CeWHE39Cc1HAnug66B8d-ycVw&oe=674E5964"
     },
     {
       name : "Gun",
-      position : "Coding",
-      github : "github",
-      ig : "ig",
+      position : "UI/UX",
+      github : "https://github.com/octovir",
+      ig : "https://www.instagram.com/thana_gun/",
       img: "people/peopleGun.jpg"
     },
     {
       name : "Top",
       position : "Coding",
-      github : "github",
-      ig : "ig",
+      github : "https://github.com/PhawitTop",
+      ig : "https://www.instagram.com/txp_p4/",
       img : "people/peopleTop.jpg"
     },
     {
       name : "Achi",
-      position : "Coding",
-      github : "github",
-      ig : "ig",
+      position : "Backend Development",
+      github : "https://github.com/ichachiraya",
+      ig : "https://www.instagram.com/achiich/",
       img : "people/peopleAchi.jpg"
     }
   ]
@@ -45,7 +45,7 @@ const Aboutus = () => {
       <SubCarousel />
       <main>
         
-        <section className="bg-white mx-5 md:mx-36 md:my-16">
+        <section className="container bg-white mx-auto">
           <div className="bg-white rounded-sm my-8">
             <p className="font-medium ">The team</p>
             <div className="bg-white my-2">
@@ -55,8 +55,7 @@ const Aboutus = () => {
             </div>
             <p className="font-light ">
               To become the beverage company our customers love, it takes a{" "}
-              <br /> passionate team of creators. Meet the people at [Your
-              Beverage Brand] <br />
+              <br /> passionate team of creators. Meet the people at Leaf and Sip <br />
               who are dedicated to crafting refreshing drinks you'll enjoy every
               time.
             </p>

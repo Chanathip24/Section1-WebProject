@@ -4,65 +4,75 @@ import Dashcate from "./components/Dashcate";
 import DashPDcard from "./components/DashPDcard";
 import DashTitleHead from "./components/DashTitleHead";
 import axios from "axios";
-import useFetchData from "../../hooks/useFetchData";
-import Loading from "../Initial/Loading";
 
 const DashProduct = () => {
-  //data
+  const [search, setSearch] = useState("");
+  const [originalData, setOriginalData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // const {data:fetchData,loading,error} = useFetchData(`${import.meta.env.VITE_API_ROUTE}/product/getall`)
-  const [data, setData] = useState([]);
-  const [loading , setLoading]= useState(true)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
           `${import.meta.env.VITE_API_ROUTE}/product/getall`
         );
-        setData(res.data);
+        setOriginalData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
-        console.log(error)
-      }finally{
-        setLoading(false)
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchData()
-  });
+    fetchData();
+  }, []);
 
-  //delete
+  // Robust search function
+  useEffect(() => {
+    if (search.trim() === "") {
+      setFilteredData(originalData);
+    } else {
+      const lowercasedSearch = search.toLowerCase().trim();
+      const filtered = originalData.filter((product) =>
+        Object.values(product).some((value) =>
+          String(value).toLowerCase().includes(lowercasedSearch)
+        )
+      );
+      setFilteredData(filtered);
+    }
+  }, [search, originalData]);
+
   const deleteProduct = (id) => {
-    setData((prevProducts) =>
+    setOriginalData((prevProducts) =>
       prevProducts.filter((product) => product.product_id !== id)
     );
   };
-  return (
-    <>
-      <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
-        <Dashnav className="bg-white h-full" />
-        <div className="overflow-y-scroll p-5 bg-white">
-          <DashTitleHead
-            title={"All Products"}
-            total={data?.length}
-            url={"/dashboard/products/addproducts"}
-          />
 
-          <Dashcate />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 place-items-center">
-            {data && data.length > 0
-              ? data.map((product, key) => {
-                  return (
-                    <DashPDcard
-                      data={product}
-                      onDelete={deleteProduct}
-                      key={key}
-                    />
-                  );
-                })
-              : "No product..."}
-          </div>
+  return (
+    <section className="lg:grid lg:grid-cols-[250px_1fr] min-h-screen bg-gray-50">
+      <Dashnav className="bg-white h-full" />
+      <div className="overflow-y-scroll p-5 bg-white">
+        <DashTitleHead
+          setSearch={setSearch}
+          title={"All Products"}
+          total={filteredData?.length}
+          url={"/dashboard/products/addproducts"}
+        />
+        <Dashcate />
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 place-items-center">
+          {filteredData && filteredData.length > 0
+            ? filteredData.map((product, key) => (
+                <DashPDcard
+                  data={product}
+                  onDelete={deleteProduct}
+                  key={key}
+                />
+              ))
+            : "No products found"}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 
