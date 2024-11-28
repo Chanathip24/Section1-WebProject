@@ -27,7 +27,9 @@ const Dashnav = () => {
 `;
   //logout
   const logout = async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API_ROUTE}/user/logout`);
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_ROUTE}/user/logout`
+    );
     navigate("/");
   };
 
@@ -68,15 +70,16 @@ const Dashnav = () => {
               <IoFolderOpenOutline className="text-2xl text-blue-500" /> Orders
             </NavLink>
 
-            <NavLink className={({ isActive }) => listyle(isActive)} to="/dashboard/email">
+            <NavLink
+              className={({ isActive }) => listyle(isActive)}
+              to="/dashboard/email"
+            >
               <MdOutlineMailOutline className="text-2xl text-blue-500" /> Email
             </NavLink>
 
             <NavLink className={({ isActive }) => listyle(isActive)} to="/">
               <AiOutlineGlobal className="text-2xl text-blue-500" /> Home Page
             </NavLink>
-
-
           </ul>
         </div>
 
@@ -91,10 +94,7 @@ const Dashnav = () => {
           <NavLink to="/dashboard">Dashboard</NavLink>
         </h1>
         {isOpen ? (
-          <IoClose
-            onClick={navToggle}
-            className="text-2xl cursor-pointer"
-          />
+          <IoClose onClick={navToggle} className="text-2xl cursor-pointer" />
         ) : (
           <RxHamburgerMenu
             onClick={navToggle}
@@ -106,7 +106,6 @@ const Dashnav = () => {
         className={`transition-all sticky top-14 duration-500 ease-in-out overflow-hidden  lg:hidden flex flex-col px-5 ${
           isOpen ? " opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
         }`}
- 
       >
         <div>
           <ul className="mt-5 flex flex-col gap-2">

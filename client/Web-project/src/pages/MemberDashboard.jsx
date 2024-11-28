@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Initial/Navbar";
 import Announcement from "../components/Initial/Announcement";
-import axios from "axios";
+
 import useFetchData from "../hooks/useFetchData";
 import { useNavigate } from "react-router-dom";
 const MemberDashboard = () => {
@@ -83,7 +83,7 @@ const MemberDashboard = () => {
             <Package className="w-12 h-12 text-purple-500" />
             <div>
               <h3 className="text-gray-500 text-sm">Pending Orders</h3>
-              <p className="text-2xl font-bold text-gray-800">{new Intl.NumberFormat().format(detail?.total_order)}</p>
+              <p className="text-2xl font-bold text-gray-800">{new Intl.NumberFormat().format(detail?.pending_order.length)}</p>
             </div>
           </div>
         </div>
