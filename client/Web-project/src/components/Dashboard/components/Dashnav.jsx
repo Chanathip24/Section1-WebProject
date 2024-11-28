@@ -10,6 +10,7 @@ import { IoExitOutline } from "react-icons/io5";
 import { IoFolderOpenOutline } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { MdOutlineMailOutline } from "react-icons/md";
 
 const Dashnav = () => {
   //mobile nav status
@@ -67,9 +68,15 @@ const Dashnav = () => {
               <IoFolderOpenOutline className="text-2xl text-blue-500" /> Orders
             </NavLink>
 
+            <NavLink className={({ isActive }) => listyle(isActive)} to="/dashboard/email">
+              <MdOutlineMailOutline className="text-2xl text-blue-500" /> Email
+            </NavLink>
+
             <NavLink className={({ isActive }) => listyle(isActive)} to="/">
               <AiOutlineGlobal className="text-2xl text-blue-500" /> Home Page
             </NavLink>
+
+
           </ul>
         </div>
 
@@ -129,6 +136,13 @@ const Dashnav = () => {
               to="/dashboard/orders"
             >
               <IoFolderOpenOutline className="text-2xl text-blue-500" /> Orders
+            </NavLink>
+
+            <NavLink
+              className={({ isActive }) => listyle(isActive)}
+              to="/dashboard/email"
+            >
+              <MdOutlineMailOutline className="text-2xl text-blue-500" /> Email
             </NavLink>
 
             <NavLink className={({ isActive }) => listyle(isActive)} to="/">

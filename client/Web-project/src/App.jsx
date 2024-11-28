@@ -29,6 +29,7 @@ import DashOrder from "./components/Dashboard/DashOrder";
 import DashupdateOrder from "./components/Dashboard/DashupdateOrder";
 import MemberDashboard from "./pages/MemberDashboard";
 import OrderDetailPage from "./pages/OrderDetailPage";
+import Dashemail from "./components/Dashboard/Dashemail";
 function App() {
   return (
     <>
@@ -61,7 +62,7 @@ function App() {
           <Route
             path="/member/dashboard"
             element={
-              <ProtectedRoute role={["CUSTOMER","ADMIN"]}>
+              <ProtectedRoute role={["CUSTOMER", "ADMIN"]}>
                 <MemberDashboard />
               </ProtectedRoute>
             }
@@ -69,7 +70,7 @@ function App() {
           <Route
             path="/member/dashboard/order/:id"
             element={
-              <ProtectedRoute role={["CUSTOMER","ADMIN"]}>
+              <ProtectedRoute role={["CUSTOMER", "ADMIN"]}>
                 <OrderDetailPage />
               </ProtectedRoute>
             }
@@ -80,6 +81,14 @@ function App() {
             element={
               <ProtectedRoute role="ADMIN">
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/email"
+            element={
+              <ProtectedRoute role="ADMIN">
+                <Dashemail />
               </ProtectedRoute>
             }
           />

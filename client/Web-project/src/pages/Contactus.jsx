@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 //component
 import Announcement from "../components/Initial/Announcement";
 import Navbar from "../components/Initial/Navbar";
@@ -9,6 +11,48 @@ import SubCarousel from "../components/Initial/SubCarousel";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoMail } from "react-icons/io5";
 const Contactus = () => {
+
+  const [mail , setMail] = useState({
+    name: "",
+    email : "",
+    message: ""
+  })
+
+
+  const validation = () =>{
+    
+    if(mail.name.length === 0 && mail.email.length === 0 && mail.message.length === 0){return false}
+    return true
+  }
+  const handleChange = (e)=>{
+    const {name,value} = e.target
+    setMail((prev)=>({...prev,[name]:value}))
+
+
+  }
+
+  const submitMail = async (e) =>{
+    e.preventDefault()
+
+    Swal.fire({
+      title: "Do you want to sent the email?",
+      showCancelButton: true,
+      confirmButtonText: "Sent",
+      denyButtonText: `Don't save`
+    }).then(async (result) => {
+      if(!validation()) return Swal.fire("Please enter all information","","error")
+      if (result.isConfirmed) {
+        try {
+          await axios.post(`${import.meta.env.VITE_API_ROUTE}/mail/mail`,mail)
+          Swal.fire("Saved!", "", "success");
+        } catch (error) {
+          console.log(error)
+        }
+        
+      } 
+    });
+
+  }
   return (
     <>
       <Announcement />
@@ -27,24 +71,30 @@ const Contactus = () => {
               <div>
                 <label className="mb-3 text-sm">Name</label>
                 <input
+                name="name"
+                onChange={handleChange}
                   placeholder="Your name..."
                   type="text"
                   className="mt-1 focus:outline-none rounded-xl border border-neutral-400 w-full h-11 p-4 mb-8"
                 />
                 <label className="mb-3 text-sm">Email</label>
                 <input
+                name="email"
+                onChange={handleChange}
                   placeholder="Your email..."
                   type="text"
                   className="mt-1 focus:outline-none rounded-xl border border-neutral-400 w-full h-11  p-4 mb-8"
                 />
                 <label className="mb-3 text-sm">Message</label>
                 <textarea
+                name="message"
+                onChange={handleChange}
                   placeholder="Your message..."
                   className="mt-1 focus:outline-none rounded-xl border border-neutral-400 w-full h-40 text-sm p-4 mb-8 resize-none "
                   defaultValue={""}
                 />
               </div>
-              <button className="h-12 w-4/12 mr-4 text-sm bg-sky-400 text-white font-semibold rounded-xl hover:bg-sky-600 active:bg-white active:text-black">
+              <button onClick={submitMail} className="h-12 w-4/12 mr-4 text-sm bg-sky-400 text-white font-semibold rounded-xl hover:bg-sky-600 active:bg-white active:text-black">
                 Submit
               </button>
             </form>

@@ -10,6 +10,7 @@ const productRoutes = require('./routes/productRoutes.js')
 const categoryRoutes = require("./routes/categoryRoutes.js")
 const qrRoutes = require("./routes/qrRoutes.js")
 const orderRoutes = require("./routes/orderRoutes.js")
+const mailRoutes = require('./routes/mailRoutes.js')
 //PORT
 const PORT = process.env.PORT || 8081
 
@@ -30,7 +31,7 @@ app.use('/product',productRoutes);
 app.use('/category',categoryRoutes)
 app.use('/qrcode',qrRoutes)
 app.use("/order",orderRoutes)
-
+app.use("/mail",mailRoutes)
 app.listen(PORT , (err)=>{
     if(err) throw err;
     console.log(`Server is running on port ${PORT}`)
