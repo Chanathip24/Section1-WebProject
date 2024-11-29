@@ -36,6 +36,7 @@ const DashEditProduct = () => {
           `${import.meta.env.VITE_API_ROUTE}/product/product/` + id
         );
         setProduct(res.data);
+        console.log(product)
       } catch (error) {
         console.log(error);
       }
@@ -233,8 +234,9 @@ const DashEditProduct = () => {
                 <input
                   required
                   onChange={handleformChange}
-                  type="text"
-                  name="stock"
+                  type="number"
+                  name="stock_quantity"
+                  
                   className={inputstyle}
                   id=""
                 />

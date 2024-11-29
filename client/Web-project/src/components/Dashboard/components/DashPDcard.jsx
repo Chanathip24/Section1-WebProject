@@ -80,7 +80,7 @@ const DashPDcard = ({ data, onDelete }) => {
             <h2 className="font-medium text-base truncate">
               {data.product_name}
             </h2>
-            <p className="text-lg font-semibold mt-1">฿{data.price}</p>
+            <p className="text-sm mt-1">฿{new Intl.NumberFormat().format(data.price)}</p>
           </div>
           
           <div className="flex flex-col text-sm">

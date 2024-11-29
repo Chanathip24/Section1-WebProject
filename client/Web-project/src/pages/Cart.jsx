@@ -187,6 +187,8 @@ const Cart = () => {
                       <span>฿{subTotal.toLocaleString()}</span>
                     </div>
                   </div>
+                  <h1>Shipping Address</h1>
+                  <textarea name="" placeholder="shipping address" className="resize-none border border-gray-500 focus:outline-none rounded-lg w-full" id=""></textarea>
                   <button
                     onClick={() => navigate("/checkout")}
                     className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold mt-6 hover:bg-green-600 transition-colors"

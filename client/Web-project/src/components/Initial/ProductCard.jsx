@@ -27,13 +27,23 @@ const Items = ({ data }) => {
     <article className=" w-80 border  md:w-60  p-4">
       <div className="topcard w-[100%] h-[200px]  relative rounded-xl">
         <div className="rounded-xl absolute bottom-0 flex justify-center w-full">
-          <button
-            className="buybutton  transition opacity-0 text-white w-10/12 rounded-lg py-2 mb-4"
-            onClick={() => addToCart(data?.stock_quantity)}
-            style={{ background: "#37c567" }}
-          >
-            <span>Buy</span>
-          </button>
+          {data?.stock_quantity > 0 ? (
+            <button
+              className="buybutton  transition opacity-0 text-white w-10/12 rounded-lg py-2 mb-4"
+              onClick={() => addToCart(data?.stock_quantity)}
+              style={{ background: "#37c567" }}
+            >
+              <span>Buy</span>
+            </button>
+          ) : (
+            <button
+              className="buybutton  transition opacity-0 text-white w-10/12 rounded-lg py-2 mb-4 bg-red-500"
+              disabled
+              
+            >
+              <span>Out of stock</span>
+            </button>
+          )}
         </div>
         <NavLink to={`/product/` + data?.product_id}>
           {" "}
@@ -52,7 +62,7 @@ const Items = ({ data }) => {
 
       <h1 className="font-bold my-2">{data?.product_name}</h1>
       <p className="">฿{new Intl.NumberFormat().format(data?.price)}</p>
-      <p className="truncate text-gray-500">{data?.description}</p>
+      <p className="truncate text-sm text-gray-500">{data?.description}</p>
     </article>
   );
 };

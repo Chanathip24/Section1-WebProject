@@ -125,7 +125,7 @@ const MemberDashboard = () => {
                           #{item.order_id}
                         </td>
                         <td className="p-4 text-sm text-gray-800">
-                          {item.order_date}
+                          {item.order_date.split("T")[0]}
                         </td>
                         <td className="p-4 text-sm text-gray-800">
                           ฿{new Intl.NumberFormat().format(item.total_amount)}

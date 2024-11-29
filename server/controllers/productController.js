@@ -2,7 +2,9 @@ const db = require("../config/db.js");
 
 exports.updateProduct = (req, res) => {
   const productId = req.params.id;
-  const { product_name, description, price, stock } = req.body;
+  const { product_name, description, price, stock_quantity } = req.body;
+
+  
   const categories = [req.body.category, req.body.sub_cate].filter(Boolean);
   const imagePaths = req.files ? req.files.map((file) => file.path) : [];
 
@@ -22,7 +24,7 @@ exports.updateProduct = (req, res) => {
   // Update product details
   db.query(
     updateProductQuery,
-    [product_name, description, price, stock, productId],
+    [product_name, description, price, stock_quantity, productId],
     (err) => {
       if (err) {
         return res
