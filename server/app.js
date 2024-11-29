@@ -12,7 +12,7 @@ const qrRoutes = require("./routes/qrRoutes.js")
 const orderRoutes = require("./routes/orderRoutes.js")
 const mailRoutes = require('./routes/mailRoutes.js')
 //PORT
-const PORT = process.env.PORT || 8081
+const PORT = process.env.PORT || 3000
 
 //middleware
 app.use(express.urlencoded({extended: true}))

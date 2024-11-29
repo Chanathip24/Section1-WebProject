@@ -42,9 +42,13 @@ exports.userLogin = async (req, res) => {
   //request ip
   const ip = req.ip;
   const userAgent = req.get("User-Agent"); //device ของ user
-  //recaptcha
+
+  //recaptcha token
   const secret = "6Lefv4gqAAAAAJ9E4gyyHpmFY7Fb0GJTEHL5j31I";
+  
+
   try {
+    //recaptcha
     const recaptchaRes = await axios.post(
       `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${recaptchaToken}`
     );
@@ -54,7 +58,7 @@ exports.userLogin = async (req, res) => {
         error: "reCAPTCHA verification failed",
       });
     }
-
+    //end of recaptcha
     db.query(query, [email], (err, result) => {
       if (err) res.status(500).json(err);
 

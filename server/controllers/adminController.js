@@ -3,8 +3,11 @@ const bcrypt = require("bcrypt");
 
 exports.adminRegister = (req, res) => {
   //check role first
+  //comment here if test
   if (req.user.role !== "ADMIN")
     return res.status(403).json("You are not an admin.");
+  // end of comment
+
   // query update table users
   const query =
     "INSERT into users(email,fname,lname,password,address,phone,role) value(?,?,?,?,?,?,?)";
