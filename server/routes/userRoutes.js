@@ -17,6 +17,8 @@ const {
   deleteUser,
   getUserById,
   adminManageUser,
+  searchUsers,
+  findUserByEmail
 } = require("../controllers/adminController.js");
 
 //all route //////////
@@ -40,5 +42,12 @@ router.delete("/delete/:id", deleteUser);
 router.post("/registeradmin", checkToken, adminRegister);
 //update
 router.put("/updateuser/:id", checkToken, adminManageUser);
+
+
+//find user by email
+router.get("/finduser/:email", findUserByEmail);
+
+//find user by email ,fname , role
+router.get("/search", searchUsers);
 
 module.exports = router;

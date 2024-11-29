@@ -196,6 +196,66 @@ exports.getoneProduct = (req, res) => {
   });
 };
 
+
+//GET search product by name
+exports.searchProductbynames = (req, res) => {
+  const { name } = req.params;
+  const query = "SELECT * FROM products WHERE product_name LIKE ?";
+  db.query(query, [name], (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    res.status(200).json(result);
+  });
+};
+
+//GET search product by name,max,min price,best seller 
+exports.searchProducts = (req, res) => {
+  const { name, minPrice, maxPrice, bestSeller } = req.query;
+  
+  let query = `
+    SELECT 
+      products.product_id,
+      products.product_name, 
+      products.description,
+      products.price,
+      products.stock_quantity,
+      products.sold_quantity
+    FROM products
+    WHERE 1=1
+  `;
+  
+  const queryParams = [];
+
+  // Add name filter if provided
+  if (name) {
+    query += ` AND product_name LIKE ?`;
+    queryParams.push(`%${name}%`);
+  }
+
+  // Add price range filter if provided
+  if (minPrice) {
+    query += ` AND price >= ?`;
+    queryParams.push(minPrice);
+  }
+  if (maxPrice) {
+    query += ` AND price <= ?`;
+    queryParams.push(maxPrice);
+  }
+
+  // Add best seller filter if requested
+  if (bestSeller === 'true') {
+    query += ` ORDER BY sold_quantity DESC LIMIT 10`;
+  }
+
+  db.query(query, queryParams, (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    if (result.length === 0) {
+      return res.status(404).json({ message: "No products found matching criteria" });
+    }
+    res.status(200).json(result);
+  });
+};
+
+
 // Get all products
 exports.getallProduct = (req, res) => {
   // Query

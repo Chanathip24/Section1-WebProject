@@ -145,3 +145,51 @@ exports.deleteUser = (req, res) => {
     res.status(200).json("Delete success");
   });
 };
+
+
+//find user by email
+exports.findUserByEmail = (req, res) => {
+  const { email } = req.params;
+  const query = "SELECT * FROM users WHERE email = ?";
+  db.query(query, [email], (err, result) => {
+    if (err) return res.status(500).json(err);
+    res.status(200).json(result);
+  });
+};
+
+//search user by email,fname,role
+exports.searchUsers = (req, res) => {
+  const { email, fname, role } = req.query;
+  let query = `
+    SELECT * FROM users 
+    WHERE 1=1
+  `;
+  
+  const queryParams = [];
+
+  // Add email filter if provided
+  if (email) {
+    query += ` AND email LIKE ?`;
+    queryParams.push(`%${email}%`);
+  }
+
+  // Add first name filter if provided 
+  if (fname) {
+    query += ` AND fname LIKE ?`;
+    queryParams.push(`%${fname}%`);
+  }
+
+  // Add role filter if provided
+  if (role) {
+    query += ` AND role = ?`;
+    queryParams.push(role);
+  }
+
+  db.query(query, queryParams, (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    if (result.length === 0) {
+      return res.status(404).json({ message: "No users found matching criteria" });
+    }
+    res.status(200).json(result);
+  });
+}
