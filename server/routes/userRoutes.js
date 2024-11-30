@@ -39,6 +39,15 @@ router.get("/logout", checkToken, userLogout);
 //   "address" : "adminaddress",
 //   "phone" : "1234567890"
 // }
+//second data
+// {
+//   "email" : "admin3@admin.com",
+//   "password" : "adminadmin",
+//   "fname" : "admin3",
+//   "lname" : "admin3",
+//   "address" : "adminaddress3",
+//   "phone" : "1234567098"
+// }
 router.post("/register", userRegister);
 
 //login
@@ -47,6 +56,11 @@ router.post("/register", userRegister);
 //body raw JSON
 // {
 //   "email" : "admin2@admin.com",
+//   "password" : "adminadmin"
+// }
+//second data
+// {
+//   "email" : "admin3@admin.com",
 //   "password" : "adminadmin"
 // }
 router.post("/login", userLogin);
@@ -68,6 +82,15 @@ router.post("/login", userLogin);
 //  "password" : "testpassword",
 //  "address" : "address",
 //  "phone" : "1234567890"
+//}
+//second
+//{
+//  "email" : "test2@email.com",
+//  "fname" : "test2fname",
+//  "lname" : "test2lname",
+//  "password" : "test2password",
+//  "address" : "addr2ess",
+//  "phone" : "1234567190"
 //}
 router.post("/registeradmin", checkToken, adminRegister);
 
@@ -104,6 +127,14 @@ router.get("/getuser/:id", checkToken, getUserById);
 //   "password" : "testpassword123",
 //   "address" : "address123",
 //   "phone" : "0123456789"
+// }
+// {
+//   "email" : "test1234@email.com",
+//   "fname" : "newfname",
+//   "lname" : "newlname",
+//   "password" : "password",
+//   "address" : "address1234",
+//   "phone" : "0123456780"
 // }
 router.put("/updateuser/:id", checkToken, adminManageUser);
 

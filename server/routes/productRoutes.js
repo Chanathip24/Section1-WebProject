@@ -25,6 +25,14 @@ router.get("/getall", getallProduct);
 //category text "1",
 //sub_cate text "5",
 //images file Please upload image file
+//second data
+//product_name ttex "product100"
+//description text "details"
+//stock text "100"
+//price text "150",
+//category text "1",
+//sub_cate text "5",
+//images file Please upload image file
 router.post("/create", upload.array("images", 4),createProduct );
 
 //product search by name
@@ -45,8 +53,16 @@ router.get("/search", searchProducts);
 // Key Value
 //product_name text "check2"
 //description text "check2"
-// stock_quantity text "101"
+//stock_quantity text "101"
 //price text "102",
+//category text "2",
+//sub_cate text "7",
+//images file Please upload image file
+//second data
+//product_name text "new_product"
+//description text "new_product"
+// stock_quantity text "100"
+//price text "180",
 //category text "2",
 //sub_cate text "7",
 //images file Please upload image file
